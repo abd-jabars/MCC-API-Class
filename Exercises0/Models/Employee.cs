@@ -26,7 +26,7 @@ namespace Exercises0.Models
         [Phone]
         public string Phone { get; set; }
 
-        [Range(typeof(DateTime), "1/1/1995", "12/31/2003", ErrorMessage = "Year of birth must be in 1995-2003 & age must be 18 in 2021")]
+        [Range(typeof(DateTime), "1/1/1995", "31/12/2003", ErrorMessage = "Year of birth must be in 1995-2003 & age must be 18 in 2021")]
         public DateTime BirthDate { get; set; }
 
         [Range(4500000,50000000, ErrorMessage = "Salary must be at least 4,500,000 - 50,000,000")]
