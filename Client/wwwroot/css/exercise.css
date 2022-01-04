@@ -1,0 +1,225 @@
+﻿.satu, .dua, .tiga, .empat {
+    width: 50px;
+    height: 50px;
+}
+
+.satu {
+    background-color: salmon;
+}
+
+.dua {
+    background-color: lightgreen;
+}
+
+.tiga {
+    background-color: dodgerblue;
+}
+
+.empat {
+    background-color: sandybrown;
+}
+
+/* ### DISPLAY ### */
+
+.display .inline, .display .block, .display .inline-block {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.display .inline h2, .display .inline-block h2{
+    padding-bottom: 100px;
+}
+
+.overlap .horizontal h2 {
+    padding-bottom: 210px
+}
+
+.inline div {
+    display: inline;
+}
+
+.block div {
+    /*display: inline;*/
+}
+
+.inline-block div {
+    display: inline-block;
+}
+
+/* ### MARGIN ### */
+
+/* Margin Shorthand */
+.margin .shorthand, .margin .overlap, .vertical, .horizontal {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.shorthand .satu {
+    margin: 10px 20px 30px 40px;
+}
+
+.shorthand .dua {
+    margin: 10px 30px 20px;
+}
+
+.shorthand .tiga {
+    margin: 10px 20px;
+}
+
+.shorthand .empat {
+    margin: 10px;
+}
+
+/* Margin Overlap */
+
+.overlap .vertical .satu {
+    margin: 70px 0px;
+}
+
+.overlap .vertical .dua {
+    margin: 35px 0px 25px;
+}
+
+.overlap .vertical .tiga {
+    margin: -35px 10px;
+}
+
+.horizontal div {
+    display: inline-block;
+}
+
+.horizontal .satu {
+    margin-right: 20px;
+}
+
+.horizontal .dua {
+    margin-left: 15px;
+}
+
+.horizontal .tiga {
+    margin-left : -25px;
+}
+
+/* Padding */
+
+.padding .satu {
+    padding: 15px;
+}
+
+.padding .dua {
+    display: inline-block;
+    padding: 15px;
+}
+
+.padding .tiga {
+    display: inline;
+    padding: 20px;
+    margin-left: 30px;
+}
+
+/* ### POSITION ### */
+.position {
+    width: 500px;
+    height: 500px;
+    margin: 20px auto 0px 0px;
+    background-color: burlywood;
+    border: 3px solid black;
+    position: relative;
+}
+
+.static, .relative, .absolute {
+    width: 100px;
+    height: 100px;
+}
+
+.static {
+    /*background-color: darksalmon;*/
+    /*position: static;*/
+    margin-right: auto;
+    z-index: 1;
+}
+
+.absolute {
+    /*background-color: blue;*/
+    position: absolute;
+    z-index: 3;
+    left: 75px;
+}
+
+.relative {
+    /*background-color: darkslategrey;*/
+    position: relative;
+    z-index: 2;
+}
+
+.tiga {
+    bottom: 50px;
+}
+
+.empat{
+    margin-top: -75px;
+}
+
+.fixed {
+    background-color: dodgerblue;
+    width: 50px;
+    height: 30px;
+    display: inline;
+    margin-left: 300px;
+    padding: 0 100px 10px;
+    position: fixed;
+    bottom: 0;
+    z-index: 5;
+}
+
+.sticky1 {
+    background-color: lightgreen;
+    display: inline-block;
+    padding: 0 20%;
+    position: -webkit-sticky;
+    position: sticky;
+    /*bottom: 0;*/ /*didnt stick*/
+    top: 0;
+    /*z-index: 6;*/
+}
+
+.sticky2 {
+    background-color: lightgreen;
+    display: inline-block;
+    margin-left: 555px;
+    padding: 10px 100px;
+    position: -webkit-sticky;
+    position: sticky;
+    bottom: 0;
+    /*top: 0;*/ /*didnt stick*/
+    /*z-index: 6;*/
+}
+
+.pseudo-class-link:hover {
+    color: red;
+}
+
+.pseudo-class-link:active {
+    color: orange;
+}
+
+.pseudo-class ul li:first-child a {
+    color: salmon;
+}
+
+.pseudo-class ul li:last-child a {
+    color: lightgreen;
+}
+
+.pseudo-class ul li:nth-child(2n) a {
+    color: gold;
+}
+
+.pseudo-element p::first-letter {
+    font-size: 30px;
+    color: red;
+}
+
+.pseudo-element p::first-line {
+    color: blue;
+}
