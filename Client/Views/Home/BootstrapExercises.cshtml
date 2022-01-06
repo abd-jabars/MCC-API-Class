@@ -1,0 +1,100 @@
+﻿@{
+    ViewData["Title"] = "Bootstrap Exercises";
+}
+<h1>@ViewData["Title"]</h1>
+
+
+<div>
+    <h2> 1 Row 3 Column </h2>
+    <div class="row">
+        <div class="col border border-primary sct1">
+            Section 1
+        </div>
+        <div class="col border border-primary">
+            Section 2
+        </div>
+        <div class="col border border-primary">
+            Section 3
+        </div>
+    </div>
+    <div class="col m-3">
+        <button class="tesClick1 btn btn-primary" onclick="testClick1()">
+            Change section 1 bg color
+        </button>
+    </div>
+</div>
+
+<div>
+    <h2> 1 Row with 2 Column+2 row </h2>
+    <div class="row">
+        <div class="col border border-primary">
+            <h4>Section 1</h4>
+            <p>Tincidunt integer eu augue augue nunc elit dolor, luctus placerat scelerisque euismod, iaculis eu lacus nunc mi elit, vehicula ut laoreet ac, aliquam sit amet justo nunc tempor, metus vel.</p>
+            @*<img src="~/pics/owl.jpg">*@
+        </div>
+        <div class="col">
+            <div class="row">
+                <div class="col border border-primary">
+                    <h4>Section 2</h4>
+                    <p>Ipsum gravida vel pretium tellus tincidunt integer eu augue augue nunc elit dolor, luctus placerat scelerisque euismod, iaculis eu lacus nunc mi elit, vehicula ut.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col border border-primary">
+                    <h4>Section 3</h4>
+                    <p>Ipsum gravida vel pretium tellus tincidunt integer eu augue augue nunc elit dolor, luctus placerat scelerisque euismod, iaculis eu lacus nunc mi elit, vehicula ut.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <p class="font-weight-bold h2 small">Tincidunt integer eu augue augue nunc elit dolor, luctus placerat scelerisque euismod, iaculis eu lacus nunc mi elit, vehicula ut laoreet ac, aliquam sit amet justo nunc tempor, metus vel. Velit mollis odio sollicitudin lacinia aliquam posuere, sapien elementum lobortis tincidunt, turpis dui ornare nisl, sollicitudin interdum turpis nunc eget sem nulla eu ultricies orci praesent id augue nec lorem pretium congue sit amet ac nunc fusce iaculis lorem eu diam hendrerit at mattis purus dignissim vivamus mauris tellus, fringilla vel dapibus a, blandit quis erat vivamus elementum aliquam luctus etiam fringilla pretium sem vitae sodales mauris id nulla est praesent laoreet, metus vel auctor aliquam, eros purus vulputate leo, eget consequat neque quam id tellus duis ultricies tempor tortor, vitae dignissim ligula mattis nec in hac habitasse platea dictumst.</p>
+        <p>Tincidunt integer eu augue augue nunc elit dolor, luctus placerat scelerisque euismod, iaculis eu lacus nunc mi elit, vehicula ut laoreet ac, aliquam sit amet justo nunc tempor, metus vel. Velit mollis odio sollicitudin lacinia aliquam posuere, sapien elementum lobortis tincidunt, turpis dui ornare nisl, sollicitudin interdum turpis nunc eget sem nulla eu ultricies orci praesent id augue nec lorem pretium congue sit amet ac nunc fusce iaculis lorem eu diam hendrerit at mattis purus dignissim vivamus mauris tellus, fringilla vel dapibus a, blandit quis erat vivamus elementum aliquam luctus etiam fringilla pretium sem vitae sodales mauris id nulla est praesent laoreet, metus vel auctor aliquam, eros purus vulputate leo, eget consequat neque quam id tellus duis ultricies tempor tortor, vitae dignissim ligula mattis nec in hac habitasse platea dictumst.</p>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">No</th>
+            <th scope="col">Name</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>081100110011</td>
+            <td>tes</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>082200220022</td>
+            <td>tes</td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td> Larry the Bird</td>
+            <td> 083300330033 </td>
+            <td>tes</td>
+        </tr>
+    </tbody>
+</table>
+
+<table>
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Nama</th>
+        </tr>
+    </thead>
+    <tbody class="tabelPoke">
+        
+    </tbody>
+</table>

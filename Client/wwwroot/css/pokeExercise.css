@@ -1,0 +1,16 @@
+﻿.pokeImage {
+    width: 200px;
+    height: 200px;
+}
+
+.modal-header h5 {
+    margin: auto;
+}
+
+.modal-lg {
+    max-width: 49%;
+}
+
+.modal-body {
+    padding: 20px;
+}

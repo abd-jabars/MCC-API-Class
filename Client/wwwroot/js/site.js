@@ -76,32 +76,42 @@ const animals = [
 console.log(animals);
 
 //let OnlyCat = new Array();
-//let OnlyCat = [];
+let onlyCat = [];
 
-//for (var i = 0; i < animals.length; i++) {
-//    if (animals[i].species == 'cat') {
-//        OnlyCat.push(animals[i]);
+for (var i = 0; i < animals.length; i++) {
+    if (animals[i].species == 'cat') {
+        onlyCat.push(animals[i]);
+    }
+    //else if (animals[i].species == 'snail') {
+    //else {
+    //    animals[i].kelas.name = 'non-mamalia';
+    //}
+}
+
+console.log(onlyCat);
+//console.log(animals);
+
+//function CatOnly() {
+//    let OnlyCat = [];
+
+//    for (var i = 0; i < animals.length; i++) {
+//        if (animals[i].species == 'cat') {
+//            OnlyCat.push(animals[i]);
+//        }
 //    }
-//    //else if (animals[i].species == 'snail') {
-//    else {
-//        animals[i].kelas.name = 'non-mamalia';
+
+//    console.log(OnlyCat);
+//}
+
+//let newAnimal = new Array();
+//newAnimal = animals;
+//for (var i = 0; i < animals.length; i++) {
+//    if (newAnimal[i].species == 'snail') {
+//        newAnimal[i].kelas.name = 'non-mamalia';
 //    }
 //}
 
-//console.log(OnlyCat);
-//console.log(animals);
-
-function CatOnly() {
-    let OnlyCat = [];
-
-    for (var i = 0; i < animals.length; i++) {
-        if (animals[i].species == 'cat') {
-            OnlyCat.push(animals[i]);
-        }
-    }
-
-    console.log(OnlyCat);
-}
+//console.log(newAnimal);
 
 function ClassName() {
     //let newAnimal = animals // didnt work, animals class name changed too
@@ -115,3 +125,17 @@ function ClassName() {
 
     console.log(newAnimal);
 }
+
+function ClassName1() {
+    for (var i = 0; i < animals.length; i++) {
+        if (animals[i].species == 'snail') {
+            animals[i].kelas.name = 'non-mamalia';
+        }
+    }
+
+    console.log(animals);
+}
+
+//let arr = ['Apple', { name: 'John' }, true, function () { alert('hello'); }];
+
+//console.log(arr);
