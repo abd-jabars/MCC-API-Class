@@ -24,8 +24,8 @@ $(".list:nth-child(2n+1) a").html("Test jQuery 1.2");
 
 var tes2 = $("li.list2 a.link").html("Test jQuery 2");
 
-var tes3 = document.querySelector("li.list3 a");
-var tes4 = document.querySelectorAll("li.list3 a");
+var tes3 = document.querySelector("li.list a");
+var tes4 = document.querySelectorAll("li.list a");
 
 var testClick1 = document.getElementsByClassName("testClick1");
 testClick1[0].addEventListener("click", function () {
@@ -76,17 +76,42 @@ const animals = [
 console.log(animals);
 
 //let OnlyCat = new Array();
-let OnlyCat = [];
+//let OnlyCat = [];
 
-for (var i = 0; i < animals.length; i++) {
-    if (animals[i].species == 'cat') {
-        OnlyCat.push(animals[i]);
+//for (var i = 0; i < animals.length; i++) {
+//    if (animals[i].species == 'cat') {
+//        OnlyCat.push(animals[i]);
+//    }
+//    //else if (animals[i].species == 'snail') {
+//    else {
+//        animals[i].kelas.name = 'non-mamalia';
+//    }
+//}
+
+//console.log(OnlyCat);
+//console.log(animals);
+
+function CatOnly() {
+    let OnlyCat = [];
+
+    for (var i = 0; i < animals.length; i++) {
+        if (animals[i].species == 'cat') {
+            OnlyCat.push(animals[i]);
+        }
     }
-    //else if (animals[i].species == 'snail') {
-    else {
-        animals[i].kelas.name = 'non-mamalia';
-    }
+
+    console.log(OnlyCat);
 }
 
-console.log(OnlyCat);
-console.log(animals);
+function ClassName() {
+    //let newAnimal = animals // didnt work, animals class name changed too
+    let newAnimal = new Array();
+    newAnimal = animals;
+    for (var i = 0; i < animals.length; i++) {
+        if (newAnimal[i].species == 'snail') {
+            newAnimal[i].kelas.name = 'non-mamalia';
+        }
+    }
+
+    console.log(newAnimal);
+}
