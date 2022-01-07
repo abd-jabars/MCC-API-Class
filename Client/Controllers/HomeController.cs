@@ -38,6 +38,26 @@ namespace Client.Controllers
             return View();
         }
 
+        public IActionResult PokemonAPI()
+        {
+            return View();
+        }
+
+        public IActionResult EmployeeAPI()
+        {
+            return View();
+        }
+
+        public IActionResult DataTableEmployee()
+        {
+            return View();
+        }
+
+        public IActionResult DataTableRegister()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

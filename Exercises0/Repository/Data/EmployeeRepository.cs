@@ -105,6 +105,10 @@ namespace Exercises0.Repository.Data
                                     on profilings.EducationId equals educations.EducationId
                                  join universities in myContext.Universities
                                     on educations.UniversityId equals universities.UniversityId
+                                 join accountRoles in myContext.AccountRoles
+                                    on accounts.NIK equals accountRoles.AccountNIK
+                                 join roles in myContext.Roles
+                                    on accountRoles.RoleId equals roles.Id
                                  //from universities in myContext.Universities
                                  //join educations in myContext.Educations
                                  //   on universities.UniversityId equals educations.UniversityId
@@ -120,8 +124,8 @@ namespace Exercises0.Repository.Data
                                         Gender = employees.Gender,
                                         Degree = educations.Degree,
                                         Gpa = educations.GPA,
-                                        UniversityName = universities.UniversityName
-
+                                        UniversityName = universities.UniversityName,
+                                        RoleName = roles.Name
                                     };
             return registeredData;
         }

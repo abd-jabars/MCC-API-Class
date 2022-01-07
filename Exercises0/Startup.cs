@@ -68,7 +68,7 @@ namespace Exercises0
             });
             services.AddCors(c =>
             {
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
             services.AddSwaggerGen(c =>
             {
@@ -93,7 +93,7 @@ namespace Exercises0
                 c.SwaggerEndpoint("/swagger/v2/swagger.json", "My API V2");
             });
 
-            app.UseCors(options => options.AllowAnyOrigin());
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             app.UseHttpsRedirection();
 

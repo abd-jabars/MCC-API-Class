@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Employee";
+}
+
+<div class="title text-center">
+    <h3>Employee</h3>
+</div>
+
+<table class="table table-hover mt-sm-5">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>NIK</th>
+            <th>Nama</th>
+            <th>Birth Date</th>
+            <th>Gender</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody class="tabelEmployee">
+    </tbody>
+</table>
+
+<script type="text/javascript" src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script>
+    $.ajax({
+        url: "https://localhost:44351/API/Employees",
+        success: function (result) {
+            console.log(result);
+        }
+    })
+</script>
+
+@section Scripts {
+    <script src="~/js/EmployeeAPI.js"></script>
+
+}

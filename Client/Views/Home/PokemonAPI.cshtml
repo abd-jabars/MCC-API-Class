@@ -1,0 +1,63 @@
+﻿@{
+    ViewData["Title"] = "Pokemon API";
+}
+
+<div class="title text-center border">
+    <h1 class="display-4">Pokemon</h1>
+</div>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Nama</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody class="tabelPoke">
+    </tbody>
+</table>
+
+<div class="modal fade" id="getPoke" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="pokemonName"></h3>
+            </div>
+            <div class="modal-body">
+                <div class="container card shadow bg-white rounded">
+                    <div class="row">
+                        <div class="col">
+                            <div class="row">
+                                @*<button class="col-2 button-lef btn btn-primary mt-auto" onclick="prevPokeImage()"> < </button>*@
+                                <div class="col pokeImage text-center mt-3"></div>
+                                @*<button class="col-2 button-right btn btn-primary mt-auto" onclick="nextPokeImage()"> > </button>*@
+                            </div>
+                            <div class="row">
+                                <div class="col mt-3"> <h5> Type </h5> </div>
+                                <div class="col pokeType my-3"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col mt-3"> <h5> Ability </h5> </div>
+                                <div class="col pokeAbility"></div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="row">
+                                <div class="col statNameValue"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/PokemonAPI.js"></script>
+
+}

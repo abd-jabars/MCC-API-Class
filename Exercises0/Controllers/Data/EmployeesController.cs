@@ -51,7 +51,7 @@ namespace Exercises0.Controllers.Data
         }
 
         //[HttpGet("{Register}")]
-        [Authorize(Roles ="Director, Manager")]
+        //[Authorize(Roles ="Director, Manager")]
         [HttpGet]
         [Route("Register")]
         public ActionResult<Register> GetData()

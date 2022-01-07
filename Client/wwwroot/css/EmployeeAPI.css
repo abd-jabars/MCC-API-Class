@@ -14,3 +14,12 @@
 .modal-body {
     padding: 20px;
 }
+
+.title {
+    position: relative;
+    margin-top: 100px;
+}
+
+/*.button-left span {
+    padding: 50% 0;
+}*/
