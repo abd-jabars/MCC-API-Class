@@ -19,8 +19,6 @@ namespace Exercises0.Repository.Data
 
         public int Register(Register register)
         {
-            //DateTime regDate = DateTime.Now;
-            //string regYear = regDate.Year.ToString();
             string yearNow = DateTime.Now.Year.ToString();
             var countEmp = myContext.Employees.ToList().Count;
             var incEmp = countEmp + 1;
@@ -44,7 +42,6 @@ namespace Exercises0.Repository.Data
             {
                 var employee = new Employee
                 {
-                    //NIK = regYear + "0" + incEmp,
                     NIK = formatedNik,
                     FirstName = register.FirstName,
                     LastName = register.LastName,
@@ -105,28 +102,19 @@ namespace Exercises0.Repository.Data
                                     on profilings.EducationId equals educations.EducationId
                                  join universities in myContext.Universities
                                     on educations.UniversityId equals universities.UniversityId
-                                 join accountRoles in myContext.AccountRoles
-                                    on accounts.NIK equals accountRoles.AccountNIK
-                                 join roles in myContext.Roles
-                                    on accountRoles.RoleId equals roles.Id
-                                 //from universities in myContext.Universities
-                                 //join educations in myContext.Educations
-                                 //   on universities.UniversityId equals educations.UniversityId
-                                 //join profilingEdId in myContext.Profilings
-                                 //   on educations.EducationId equals profilingEdId.EducationId
                                  select new
-                                    {
-                                        FullName = employees.FirstName + " " + employees.LastName,
-                                        Phone = employees.Phone,
-                                        BirthDate = employees.BirthDate,
-                                        Salary = employees.Salary,
-                                        Email = employees.Email,
-                                        Gender = employees.Gender,
-                                        Degree = educations.Degree,
-                                        Gpa = educations.GPA,
-                                        UniversityName = universities.UniversityName,
-                                        RoleName = roles.Name
-                                    };
+                                 {
+                                     FullName = employees.FirstName + " " + employees.LastName,
+                                     Phone = employees.Phone,
+                                     BirthDate = employees.BirthDate,
+                                     Salary = employees.Salary,
+                                     Email = employees.Email,
+                                     Gender = employees.Gender,
+                                     Degree = educations.Degree,
+                                     Gpa = educations.GPA,
+                                     UniversityName = universities.UniversityName,
+                                     RoleName = myContext.AccountRoles.Where(acr => acr.AccountNIK == employees.NIK).Select(acr => acr.Role.Name).ToList()
+                                 };
             return registeredData;
         }
 
@@ -142,11 +130,6 @@ namespace Exercises0.Repository.Data
 
         public int InsertEmp(Employee employee)
         {
-            //if (CheckEmail(employee) != 1 && CheckPhone(employee) != 1)
-            //{
-            //    base.Insert(employee);
-            //    return 1;
-            //}
             if (CheckEmail(employee) == 1 && CheckPhone(employee) == 1)
             {
                 return 1;
@@ -161,7 +144,6 @@ namespace Exercises0.Repository.Data
             }
             else
             {
-                //base.Insert(employee);
                 return 0;
             }
         }
@@ -182,9 +164,6 @@ namespace Exercises0.Repository.Data
             }
             else
             {
-                //myContext.Entry(employee).State = EntityState.Modified;
-                //myContext.SaveChanges();
-                //base.Update(employee);
                 return 0;
             }
         }
@@ -206,37 +185,6 @@ namespace Exercises0.Repository.Data
             else
                 return 0;
         }
-
-        //public int CheckPhoneMail(Employee employee)
-        //{
-        //    var checkData = myContext.Employees.Find(employee.NIK);
-        //    var listPhone = myContext.Employees.ToList().Where(e => e.Phone == employee.Phone);
-        //    var listEmail = myContext.Employees.ToList().Where(e => e.Email == employee.Email);
-
-        //    if (checkData != null)
-        //    {
-        //        myContext.Entry(checkData).State = EntityState.Detached;
-        //        foreach (var phone in listPhone)
-        //        {
-        //            if (phone.NIK != employee.NIK)
-        //            {
-        //                return 1;
-        //            }
-        //        }
-        //        foreach (var email in listEmail)
-        //        {
-        //            if (email.NIK != employee.NIK)
-        //            {
-        //                return 2;
-        //            }
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return 3;
-        //    }
-        //    return 4;
-        //}
 
         public int CheckPhoneMail(Employee employee)
         {

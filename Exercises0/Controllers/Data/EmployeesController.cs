@@ -65,9 +65,9 @@ namespace Exercises0.Controllers.Data
                 else
                     return Ok(new { status = HttpStatusCode.OK, result = result, message = "Data found" });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return NotFound(new { status = HttpStatusCode.NotFound });
+                return NotFound(new { status = HttpStatusCode.NotFound, message = ex.ToString() });
             }
         }
 

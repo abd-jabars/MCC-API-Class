@@ -20,7 +20,7 @@
     console.log(error);
 });
 
-function typeColor(val) {
+function getGender(val) {
     if (val == 0) {
         var gender = `<td class = "text-capitalize">Male</td>`;
         return gender;
