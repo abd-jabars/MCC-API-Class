@@ -118,6 +118,34 @@ namespace Exercises0.Repository.Data
             return registeredData;
         }
 
+        public Object GetRegisteredData(string NIK)
+        {
+            var registeredData = from employees in myContext.Employees
+                                 join accounts in myContext.Accounts
+                                    on employees.NIK equals accounts.NIK
+                                 join profilings in myContext.Profilings
+                                    on accounts.NIK equals profilings.NIK
+                                 join educations in myContext.Educations
+                                    on profilings.EducationId equals educations.EducationId
+                                 join universities in myContext.Universities
+                                    on educations.UniversityId equals universities.UniversityId
+                                 where employees.NIK == NIK
+                                 select new
+                                 {
+                                     FullName = employees.FirstName + " " + employees.LastName,
+                                     Phone = employees.Phone,
+                                     BirthDate = employees.BirthDate,
+                                     Salary = employees.Salary,
+                                     Email = employees.Email,
+                                     Gender = employees.Gender,
+                                     Degree = educations.Degree,
+                                     Gpa = educations.GPA,
+                                     UniversityName = universities.UniversityName,
+                                     RoleName = myContext.AccountRoles.Where(acr => acr.AccountNIK == employees.NIK).Select(acr => acr.Role.Name).ToList()
+                                 };
+            return registeredData;
+        }
+
         public IEnumerable<Object> GetRegisteredDataEagerly()
         {
             var eagerLoading = myContext.Employees

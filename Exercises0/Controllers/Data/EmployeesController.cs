@@ -71,6 +71,25 @@ namespace Exercises0.Controllers.Data
             }
         }
 
+        [HttpGet]
+        [Route("Register/NIK")]
+        public ActionResult<Register> GetData(string NIK)
+        {
+            try
+            {
+                var result = employeeRepository.GetRegisteredData(NIK);
+                //var result = employeeRepository.GetRegisteredDataEagerly();
+                if (result == null)
+                    return NotFound(new { status = HttpStatusCode.NotFound, result = result, message = "No data found" });
+                else
+                    return Ok(new { status = HttpStatusCode.OK, result = result, message = "Data found" });
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new { status = HttpStatusCode.NotFound, message = ex.ToString() });
+            }
+        }
+
         [HttpPost]
         [Route("only")]
         public ActionResult<Employee> InsertEmp(Employee employee)
