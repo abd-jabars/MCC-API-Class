@@ -106,7 +106,7 @@ namespace Exercises0.Repository.Data
                                  {
                                      FullName = employees.FirstName + " " + employees.LastName,
                                      Phone = employees.Phone,
-                                     BirthDate = employees.BirthDate,
+                                     BirthDate = employees.BirthDate.ToString("dddd, dd MMMM yyyy"),
                                      Salary = employees.Salary,
                                      Email = employees.Email,
                                      Gender = employees.Gender,

@@ -12,11 +12,11 @@ namespace Exercises0.Models
     {
         public int EducationId { get; set; }
         public string Degree { get; set; }
-        public string GPA { get; set; }
-        //[JsonIgnore]
+        public float GPA { get; set; }
+        [JsonIgnore]
         public virtual University University { get; set; }
         public int UniversityId { get; set; }
-        //[JsonIgnore]
+        [JsonIgnore]
         public virtual ICollection<Profiling> Profilings { get; set; }
     }
 }

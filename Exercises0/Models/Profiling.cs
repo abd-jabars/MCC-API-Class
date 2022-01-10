@@ -13,9 +13,9 @@ namespace Exercises0.Models
     {
         [Key]
         public string NIK { get; set; }
-        //[JsonIgnore]
+        [JsonIgnore]
         public virtual Account Account { get; set; }
-        //[JsonIgnore]
+        [JsonIgnore]
         public virtual Education Education { get; set; }
         public int EducationId { get; set; }
     }

@@ -10,14 +10,14 @@ namespace Exercises0.ViewModel
         //public string NIK { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public Models.Gender Gender { get; internal set; }
+        public Models.Gender Gender { get; set; }
         public DateTime BirthDate {get; set;}
         public string Phone { get; set; }
         public string Email { get; set; }
         public int Salary { get; set; }
         public string Password { get; set; }
         public string Degree { get; set; }
-        public string GPA { get; set; }
+        public float GPA { get; set; }
         public int UniversityId { get; set; }
     }
     //public enum Gender

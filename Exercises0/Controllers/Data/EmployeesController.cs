@@ -36,11 +36,11 @@ namespace Exercises0.Controllers.Data
             {
                 var result = employeeRepository.Register(register);
                 if (result == 1)
-                    return BadRequest(new { status = HttpStatusCode.BadRequest, result = result, message = "Phone and email already used" });
+                    return Ok(new { status = HttpStatusCode.BadRequest, result = result, message = "Phone and email already used" });
                 else if (result == 2)
-                    return BadRequest(new { status = HttpStatusCode.BadRequest, result = result, message = "Email already used" });
+                    return Ok(new { status = HttpStatusCode.BadRequest, result = result, message = "Email already used" });
                 else if (result == 3)
-                    return BadRequest(new { status = HttpStatusCode.BadRequest, result = result, message = "Phone already used" });
+                    return Ok(new { status = HttpStatusCode.BadRequest, result = result, message = "Phone already used" });
                 else
                     return Ok(new { status = HttpStatusCode.OK, result = result, message = "Data inserted" });
             }
@@ -63,7 +63,7 @@ namespace Exercises0.Controllers.Data
                 if (result.Count() <= 0)
                     return NotFound(new { status = HttpStatusCode.NotFound, result = result, message = "No data found" });
                 else
-                    return Ok(new { status = HttpStatusCode.OK, url = UrlHelperExtensions.RouteUrl(Url, result), result = result, message = "Data found" });
+                    return Ok(new { status = HttpStatusCode.OK, result = result, message = "Data found" });
             }
             catch (Exception ex)
             {

@@ -21,8 +21,18 @@ namespace Exercises0.Repository
             entities = myContext.Set<Entity>();
         }
 
-        public int Delete(Entity entity)
+        //public int Delete(Entity entity)
+        //{
+        //    if (entity == null)
+        //        throw new ArgumentNullException("entity");
+        //    entities.Remove(entity);
+        //    var result = myContext.SaveChanges();
+        //    return result;
+        //}
+
+        public int Delete(Key key)
         {
+            var entity = entities.Find(key);
             if (entity == null)
                 throw new ArgumentNullException("entity");
             entities.Remove(entity);

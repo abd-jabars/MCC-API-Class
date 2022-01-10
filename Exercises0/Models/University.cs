@@ -13,7 +13,7 @@ namespace Exercises0.Models
         public int UniversityId { get; set; }
         public string UniversityName { get; set; }
 
-        //[JsonIgnore]
+        [JsonIgnore]
         public virtual ICollection<Education> Educations { get; set; }
     }
 

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Exercises0.Controllers
@@ -48,11 +49,24 @@ namespace Exercises0.Controllers
             return Ok(result);
         }
 
-        [HttpDelete]
-        public ActionResult<Entity> Delete(Entity entity)
+        //[HttpDelete]
+        //public ActionResult<Entity> Delete(Entity entity)
+        //{
+        //    var result = repository.Delete(entity);
+        //    return Ok(result);
+        //}
+        [HttpDelete("{key}")]
+        public ActionResult<Entity> Delete(Key key)
         {
-            var result = repository.Delete(entity);
-            return Ok(result);
+            try
+            {
+                var result = repository.Delete(key);
+                return Ok(new { status = HttpStatusCode.OK, result = result, message = "Data deleted" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { status = HttpStatusCode.BadRequest, message = ex.ToString() });
+            }
         }
     }
 }
