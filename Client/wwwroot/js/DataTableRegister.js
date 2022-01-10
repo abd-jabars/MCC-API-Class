@@ -51,7 +51,7 @@
             },
             {
                 'data': 'fullName',
-                'width': '200px'
+                'width': '100px'
             },
             {
                 'data': null,
@@ -79,7 +79,7 @@
             },
             {
                 'data': 'universityName',
-                'width': '200px',
+                'width': '150px',
             },
             {
                 'data': 'degree'
@@ -99,9 +99,24 @@
             {
                 'data': null,
                 'render': function (data, type, row) {
-                    return `<button class = "btn btn-primary fa fa-search"></button>`
+                    return `<button data-toggle="modal" data-target="#getEmployeeDetail" class="d-inline btn btn-primary fa fa-search" onclick="getDetails()"></button>
+                            <button data-toggle="modal" data-target="#getEmployeeDetail" class="d-inline btn btn-warning fa fa-pencil" onclick=""></button>
+                            <button data-toggle="modal" data-target="#getEmployeeDetail" class="d-inline btn btn-danger fa fa-trash" onclick=""></button>`
                 }
             }
         ]
     });
 });
+
+function getDetails() {
+    $.ajax({
+        url: "https://localhost:44351/API/Employees/Register/NIK"
+
+    }).done((result) => {
+        console.log(result);
+        console.log();
+
+}).fail((error) => {
+    console.log(error);
+});
+}

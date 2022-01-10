@@ -42,11 +42,11 @@ namespace Exercises0.Controllers.Data
                 else if (result == 3)
                     return BadRequest(new { status = HttpStatusCode.BadRequest, result = result, message = "Phone already used" });
                 else
-                    return Ok(new { status = HttpStatusCode.OK, result = result, message = "Data inserted"});
+                    return Ok(new { status = HttpStatusCode.OK, result = result, message = "Data inserted" });
             }
             catch (Exception)
             {
-                return BadRequest(new { status = HttpStatusCode.BadRequest});
+                return BadRequest(new { status = HttpStatusCode.BadRequest });
             }
         }
 
@@ -63,7 +63,7 @@ namespace Exercises0.Controllers.Data
                 if (result.Count() <= 0)
                     return NotFound(new { status = HttpStatusCode.NotFound, result = result, message = "No data found" });
                 else
-                    return Ok(new { status = HttpStatusCode.OK, result = result, message = "Data found" });
+                    return Ok(new { status = HttpStatusCode.OK, url = UrlHelperExtensions.RouteUrl(Url, result), result = result, message = "Data found" });
             }
             catch (Exception ex)
             {
@@ -71,8 +71,8 @@ namespace Exercises0.Controllers.Data
             }
         }
 
-        [HttpGet]
-        [Route("Register/NIK")]
+        [HttpGet("Register/{NIK}")]
+        //[Route("Register/NIK")]
         public ActionResult<Register> GetData(string NIK)
         {
             try
@@ -82,7 +82,7 @@ namespace Exercises0.Controllers.Data
                 if (result == null)
                     return NotFound(new { status = HttpStatusCode.NotFound, result = result, message = "No data found" });
                 else
-                    return Ok(new { status = HttpStatusCode.OK, result = result, message = "Data found" });
+                    return Ok(new { status = HttpStatusCode.OK, url = UrlHelperExtensions.RouteUrl(Url,result), result = result, message = "Data found" });
             }
             catch (Exception ex)
             {
