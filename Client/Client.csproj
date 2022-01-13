@@ -5,12 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.22" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\pics\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Exercises0\Exercises0.csproj" />
   </ItemGroup>
 
 </Project>

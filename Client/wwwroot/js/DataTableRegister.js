@@ -15,6 +15,9 @@
                 }
             },
             {
+                'data': 'nik'
+            },
+            {
                 'data': 'fullName',
                 'width': '100px'
             },
@@ -48,9 +51,9 @@
                 'data': null,
                 'width': '150px',
                 'render': function (data, type, row) {
-                    return `<button data-toggle="modal" data-target="#getEmployeeDetail" class="d-inline btn btn-primary fa fa-info" onclick=""></button>
-                            <button data-toggle="modal" data-target="#getEmployeeDetail" class="d-inline btn btn-warning fa fa-pencil" onclick=""></button>
-                            <button data-toggle="modal" data-target="#getEmployeeDetail" class="d-inline btn btn-danger fa fa-trash" onclick=""></button>`
+                    return `<button data-toggle="modal" data-target="#detailEmployee" class="d-inline btn btn-primary fa fa-info" onclick="Detail(${row["nik"]})"></button>
+                            <button data-toggle="modal" data-target="#registerNewEmployee" class="d-inline btn btn-warning fa fa-pencil" onclick="Update(${row["nik"]})"></button>
+                            <button data-toggle="modal" data-target="#getEmployeeDetail" class="d-inline btn btn-danger fa fa-trash" onclick="Delete(${row["nik"]})"></button>`;
                 }
             }
         ],
@@ -61,7 +64,7 @@
                 className: 'btn btn-primary',
                 text: '<i class="fa fa-files-o"> Copy </i>',
                 exportOptions: {
-                    columns: [0, ':visible']
+                    columns: [0, 1, 2, 3, 4, 5, 6]
                 }
             },
             {
@@ -69,7 +72,7 @@
                 className: 'btn btn-primary',
                 text: '<i class="fa fa-file-excel-o"> Excel </i>',
                 exportOptions: {
-                    columns: [0, ':visible']
+                    columns: [0, 1, 2, 3, 4, 5, 6]
                 }
             },
             {
@@ -77,7 +80,7 @@
                 className: 'btn btn-primary',
                 text: '<i class="fa fa-file-pdf-o"> Pdf </i>',
                 exportOptions: {
-                    columns: [0, ':visible']
+                    columns: [0, 1, 2, 3, 4, 5, 6]
                 }
             },
             {
@@ -85,7 +88,7 @@
                 className: 'btn btn-primary',
                 text: '<i class="fa fa-print"> Print </i>',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                    columns: [0, 1, 2, 3, 4, 5, 6]
                 }
             }
         ]
@@ -94,8 +97,7 @@
 
 function Insert() {
     $.ajax({
-        url: "https://localhost:44351/API/Universities"
-
+        url: "https://localhost:44351/API/Universities",
     }).done((result) => {
         var univOpt = "";
 
@@ -104,9 +106,237 @@ function Insert() {
         });
         $("#university").html(univOpt);
 
+        $('#form1').trigger("reset");
+        //submitForm();
+
+        var insertTitle = "";
+        insertTitle += `<h3 class="mx-auto my-1"> Insert new data </h3>`;
+        $("#registerNewEmployee .modal-header").html(insertTitle);
+
+        $("#submitButton").html("Insert");
+
+        //var insertButton = "";
+        //insertButton += `<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        //            <button type="submit" class="btn btn-primary" id="insertButton">Insert</button>`;
+        //$("registerNewEmployee .modal-footer").html(insertButton);
+
     }).fail((error) => {
         console.log(error);
     });
+}
+
+function GetUniversities() {
+    $.ajax({
+        url: "https://localhost:44351/API/Universities"
+
+    }).done((result) => {
+        console.log(result);
+
+        var univOpt = "";
+
+        $.each(result, function (key, val) {
+            univOpt += `<option value="${val.universityId}">${val.universityName}</option>`
+            /*$("#university").html(univOpt);*/
+        });
+        $("#university").html(univOpt);
+
+    }).fail((error) => {
+        console.log(error);
+    });
+}
+
+function setFormValue(data) {
+    var updateTitle = "";
+    updateTitle += `<h3 class="mx-auto my-1"> Update data: ${data.nik} - ${data.firstName} ${data.lastName} </h3>`;
+    $("#registerNewEmployee .modal-header").html(updateTitle);
+
+    let nik = data.nik;
+    let firstName = data.firstName;
+    let lastName = data.lastName;
+    let birthDate = data.birthDate;
+    let email = data.email;
+    let phone = data.phone;
+    let gender = data.gender;
+    let university = data.universityId;
+    let degree = data.degree;
+    let gpa = data.gpa;
+    let salary = data.salary;
+
+    $("#nik").val(nik);
+    $("#firstName").val(firstName);
+    $("#lastName").val(lastName);
+    $("#university").val(university);
+    $("#birthDate").val(birthDate);
+    $("#email").val(email);
+    $('#password').attr("readonly", true);
+    $("#phone").val(phone);
+    $("#gender").val(gender);
+    $("#degree").val(degree);
+    $("#gpa").val(gpa);
+    $("#salary").val(salary);
+    $("#submitButton").html("Update");
+
+    //var updateButton = "";
+    //updateButton += `<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+    //                <button type="submit" class="btn btn-primary" id="updateButton" onclick="SubmitUpdateForm()">Update</button>`;
+    //$(".modal-footer").html(updateButton);
+}
+
+function Update(nik) {
+    GetUniversities();
+    $.ajax({
+        url: "https://localhost:44351/API/Employees/Register/" + nik,
+    }).done((result) => {
+
+        console.log(result);
+
+        var data = result.result[0];
+
+        setFormValue(data);
+
+    }).fail((error) => {
+        console.log(error);
+    });
+}
+
+
+//function SubmitUpdateForm() {
+//    $('#form1').submit(function (e) {
+//        e.preventDefault();
+
+//        UpdateData();
+//        $('#form1').trigger("reset");
+//        $('#registerNewEmployee').modal('hide');
+//    });
+
+//}
+
+function UpdateData() {
+    var firstName = $('#firstName').val();
+    var lastName = $('#lastName').val();
+    var email = $('#email').val();
+    var password = $('#password').attr("readonly", true);
+    var phone = $('#phone').val();
+    var birthDate = $('#birthDate').val();
+    var gender = $('#gender').val();
+    var university = $('#university').val();
+    var degree = $('#degree').val();
+    var gpa = $('#gpa').val();
+    var salary = $('#salary').val();
+
+    var registeredData = Object();
+    registeredData.NIK = $("#nik").val();
+    registeredData.FirstName = firstName;
+    registeredData.LastName = lastName;
+    registeredData.Gender = gender;
+    registeredData.BirthDate = birthDate;
+    registeredData.Phone = phone;
+    registeredData.Email = email;
+    //registeredData.Password = password;
+    registeredData.Degree = degree;
+    registeredData.GPA = parseFloat(gpa);
+    registeredData.UniversityId = parseInt(university);
+    registeredData.Salary = parseInt(salary);
+
+    console.log(registeredData);
+
+    var myJson = JSON.stringify(registeredData)
+
+    console.log("My Json 1", myJson)
+
+    var myTable = $('#dataTabelEmployee').DataTable();
+    $.ajax({
+        url: "https://localhost:44351/API/Employees/Register",
+        contentType: "application/json;charset=utf-8",
+        type: "PUT",
+        data: JSON.stringify(registeredData)
+    }).done((result) => {
+        console.log(result);
+        console.log(result.message);
+        myTable.ajax.reload();
+        var swalIcon;
+        if (result.status == 200) {
+            swalIcon = 'success';
+            swalTitle = 'Success';
+        } else {
+            swalIcon = 'error'
+            swalTitle = 'Oops!'
+        }
+        Swal.fire({
+            icon: swalIcon,
+            title: swalTitle,
+            text: result.message,
+        });
+    }).fail((error) => {
+        console.log(error);
+        //console.log(result.message);
+        //alert(result.message);
+        Swal.fire({
+            icon: 'error',
+            title: 'Something went wrong',
+            text: error.message,
+        });
+    });
+}
+
+function Delete(nik) {
+
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        
+        if (result.isConfirmed) {
+            var myTable = $('#dataTabelEmployee').DataTable();
+
+            // get nik, then find education id that have the nik and delete it
+
+            //$.ajax({
+            //    url: "https://localhost:44351/API/Educations/",
+            //    type: "DELETE"
+            //}).done((result) => {
+
+            //    console.log(result);
+
+            //}).fail((error) => {
+            //    console.log(error);
+            //});
+
+            $.ajax({
+                url: "https://localhost:44351/API/Employees/" + nik,
+                //url: "https://localhost:44351/API/Employees/Register",
+                type: "DELETE"
+            }).done((result) => {
+
+                console.log(result);
+
+                if (result.status === 200) {
+                    Swal.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                    )
+                } else {
+                    Swal.fire(
+                        'Something went wrong',
+                        result.message,
+                        'error'
+                    )
+                }
+
+                myTable.ajax.reload();
+
+            }).fail((error) => {
+                console.log(error);
+            });
+            
+        }
+    })
 }
 
 function submitForm() {
@@ -125,18 +355,13 @@ function submitForm() {
     var registeredData = Object();
     registeredData.FirstName = firstName;
     registeredData.LastName = lastName;
-    if (gender == "Male") {
-        registeredData.Gender = 1;
-    } else {
-        registeredData.Gender = 2;
-    }
+    registeredData.Gender = gender;
     registeredData.BirthDate = birthDate;
     registeredData.Phone = phone;
     registeredData.Email = email;
     registeredData.Password = password;
     registeredData.Degree = degree;
-    registeredData.GPA = gpa;
-    //registeredData.UniversityId = parseInt(university+1);
+    registeredData.GPA = parseFloat(gpa);
     registeredData.UniversityId = parseInt(university);
     registeredData.Salary = parseInt(salary);
 
@@ -153,11 +378,18 @@ function submitForm() {
         console.log(result.message);
         //alert(result.message);
         myTable.ajax.reload();
+        var swalIcon;
+        if (result.status == 200) {
+            swalIcon = 'success';
+            swalTitle = 'Success';
+        } else {
+            swalIcon = 'error'
+            swalTitle = 'Oops!'
+        }
         Swal.fire({
-            icon: 'success',
-            title: 'Success',
+            icon: swalIcon,
+            title: swalTitle,
             text: result.message,
-            type: 'success'
         });
     }).fail((error) => {
         console.log(error);
@@ -167,47 +399,94 @@ function submitForm() {
             icon: 'error',
             title: 'Something went wrong',
             text: result.message,
-            type: 'error'
         });
     });
 }
 
 $('#form1').submit(function (e) {
     e.preventDefault();
-
-    submitForm();
-    $('#submitButton').modal('toggle');
+    if ($("#submitButton").html() == "Insert") {
+        submitForm();
+        $('#form1').trigger("reset");
+        $('#registerNewEmployee').modal('hide');
+    } else {
+        UpdateData();
+        $('#form1').trigger("reset");
+        $('#registerNewEmployee').modal('hide');
+    }
 });
 
-//$('#form1').validate({
-//    rules: {
-//        errorClass: "error",
-//        'email': {
-//            required: true,
-//            email: true
-//        },
-//        'password': {
-//            required: true,
-//            minlength: 8
-//        }
-//    },
-//    messages: {
-//        'password': {
-//            required: "This field is required",
-//            minlength: "Your password must be at least 8 character long"
-//        }
-//    }
-//});
+function Detail(nik) {
+    $.ajax({
+        url: "https://localhost:44351/API/Employees/Register/" + nik,
+    }).done((result) => {
 
-//function getDetails() {
-//    $.ajax({
-//        url: "https://localhost:44351/API/Employees/Register/NIK"
+        console.log(result);
 
-//    }).done((result) => {
-//        console.log(result);
-//        console.log();
+        var data = result.result[0];
 
-//}).fail((error) => {
-//    console.log(error);
-//});
-//}
+        SetDetailValue(data);
+
+    }).fail((error) => {
+        console.log(error);
+    });
+}
+
+function SetDetailValue(data) {
+
+    let detailButton = "";
+    detailButton += `<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;
+    $("#detailEmployee .modal-footer").html(detailButton);
+
+    let nik = "";
+    nik += `<h6 class="ml-auto my-1 d-inline-block"> NIK: </h6> <h6 class="mr-auto my-1 d-inline-block"> ${data.nik} </h6>`;
+    $(".detailRegisteredNIK").html(nik);
+
+    let fullName = "";
+    fullName += `<h6 class="mx-auto my-1"> Name: ${data.firstName} ${data.lastName} </h6>`;
+    $(".detailRegisteredName").html(fullName);
+
+    let email = "";
+    email += `<h6 class="mx-auto my-1"> Email: ${data.email} </h6>`;
+    $(".detailRegisteredEmail").html(email);
+
+    let phone = "";
+    phone += `<h6 class="mx-auto my-1"> Phone: ${data.phone} </h6>`;
+    $(".detailRegisteredPhone").html(phone);
+
+    let birthDate = "";
+    birthDate += `<h6 class="mx-auto my-1"> Birth date: ${data.birthDate} </h6>`;
+    $(".detailRegisteredBirthDate").html(birthDate);
+
+    let getGender = data.gender;
+    if (getGender === 0) {
+        let gender = "";
+        gender += `<h6 class="mx-auto my-1"> Gender: Male </h6>`;
+        $(".detailRegisteredGender").html(gender);
+    } else {
+        let gender = "";
+        gender += `<h6 class="mx-auto my-1"> Gender: Female </h6>`;
+        $(".detailRegisteredGender").html(gender);
+    }
+
+    let universityName = "";
+    universityName += `<h6 class="mx-auto my-1"> University: ${data.universityName} </h6>`;
+    $(".detailRegisteredUniversityname").html(universityName);
+
+    let degree = "";
+    degree += `<h6 class="mx-auto my-1"> Degree: ${data.degree} </h6>`;
+    $(".detailRegisteredDegree").html(degree);
+
+    let gpa = "";
+    gpa += `<h6 class="mx-auto my-1"> GPA: ${data.gpa} </h6>`;
+    $(".detailRegisteredGPA").html(gpa);
+
+    let roleName = "";
+    roleName += `<h6 class="mx-auto my-1"> Role: ${data.roleName} </h6>`;
+    $(".detailRegisteredRole").html(roleName);
+
+    let salary = "";
+    salary += `<h6 class="mx-auto my-1"> Salary: ${data.salary} </h6>`;
+    $(".detailRegisteredSalary").html(salary);
+
+}

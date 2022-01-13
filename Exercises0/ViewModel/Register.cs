@@ -7,7 +7,7 @@ namespace Exercises0.ViewModel
 {
     public class Register
     {
-        //public string NIK { get; set; }
+        public string NIK { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public Models.Gender Gender { get; set; }

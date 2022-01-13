@@ -19,10 +19,18 @@ namespace Exercises0.Repository.Data
 
         public int Register(Register register)
         {
-            string yearNow = DateTime.Now.Year.ToString();
-            var countEmp = myContext.Employees.ToList().Count;
-            var incEmp = countEmp + 1;
-            string formatedNik = yearNow + "0" + incEmp;
+            int increment = myContext.Employees.ToList().Count;
+            string formatedNik = "";
+            if (increment == 0)
+            {
+                formatedNik = DateTime.Now.ToString("yyyy") + "0" + increment.ToString();
+            }
+            else
+            {
+                string increment2 = myContext.Employees.ToList().Max(e => e.NIK);
+                int formula = Int32.Parse(increment2) + 1;
+                formatedNik = formula.ToString();
+            }
 
             var checkPhone = myContext.Employees.Where(emp => emp.Phone == register.Phone).FirstOrDefault();
             var checkEmail = myContext.Employees.Where(emp => emp.Email == register.Email).FirstOrDefault();
@@ -104,6 +112,7 @@ namespace Exercises0.Repository.Data
                                     on educations.UniversityId equals universities.UniversityId
                                  select new
                                  {
+                                     NIK = employees.NIK,
                                      FullName = employees.FirstName + " " + employees.LastName,
                                      Phone = employees.Phone,
                                      BirthDate = employees.BirthDate.ToString("dddd, dd MMMM yyyy"),
@@ -112,6 +121,7 @@ namespace Exercises0.Repository.Data
                                      Gender = employees.Gender,
                                      Degree = educations.Degree,
                                      Gpa = educations.GPA,
+                                     UniversityId = universities.UniversityId,
                                      UniversityName = universities.UniversityName,
                                      RoleName = myContext.AccountRoles.Where(acr => acr.AccountNIK == employees.NIK).Select(acr => acr.Role.Name).ToList()
                                  };
@@ -132,18 +142,76 @@ namespace Exercises0.Repository.Data
                                  where employees.NIK == NIK
                                  select new
                                  {
-                                     FullName = employees.FirstName + " " + employees.LastName,
+                                     NIK = employees.NIK,
+                                     FirstName = employees.FirstName,
+                                     LastName = employees.LastName,
                                      Phone = employees.Phone,
-                                     BirthDate = employees.BirthDate,
+                                     BirthDate = employees.BirthDate.ToString("yyyy-MM-dd"),
                                      Salary = employees.Salary,
                                      Email = employees.Email,
                                      Gender = employees.Gender,
                                      Degree = educations.Degree,
                                      Gpa = educations.GPA,
+                                     UniversityId = universities.UniversityId,
                                      UniversityName = universities.UniversityName,
                                      RoleName = myContext.AccountRoles.Where(acr => acr.AccountNIK == employees.NIK).Select(acr => acr.Role.Name).ToList()
                                  };
             return registeredData;
+        }
+
+        public int UpdateRegisteredData(Register register)
+        {
+            
+            var employee = new Employee
+            {
+                NIK = register.NIK,
+                FirstName = register.FirstName,
+                LastName = register.LastName,
+                BirthDate = register.BirthDate,
+                Phone = register.Phone,
+                Email = register.Email,
+                Salary = register.Salary,
+                Gender = register.Gender
+            };
+            myContext.Entry(employee).State = EntityState.Modified;
+            myContext.SaveChanges();
+
+            var getProfiling = myContext.Profilings.Find(register.NIK);
+            //var getProfiling = myContext.Profilings.Find(employee.NIK);
+            var education = new Education
+            {
+                EducationId = getProfiling.EducationId,
+                Degree = register.Degree,
+                GPA = register.GPA,
+                UniversityId = register.UniversityId
+            };
+            myContext.Entry(education).State = EntityState.Modified;
+            var result = myContext.SaveChanges();
+
+            return result;
+
+        }
+
+        public int DeleteRegisteredData(Register register)
+        {
+
+            var employee = myContext.Employees.Find(register.NIK);
+            if (employee == null)
+                throw new ArgumentNullException("employee");
+            myContext.Employees.Remove(employee);
+            myContext.SaveChanges();
+
+            var getProfiling = myContext.Profilings.Find(register.NIK);
+            var getEducation = myContext.Educations.Where(ed => ed.EducationId == getProfiling.EducationId).ToList();
+            foreach (var item in getEducation)
+            {
+                var education = item;
+                myContext.Educations.Remove(education);
+                myContext.SaveChanges();
+            }
+
+            return 1;
+
         }
 
         public IEnumerable<Object> GetRegisteredDataEagerly()
@@ -154,6 +222,26 @@ namespace Exercises0.Repository.Data
                 .ThenInclude(ed => ed.Education)
                 .ThenInclude(univ => univ.University);
             return eagerLoading;
+        }
+
+        public int CheckUpdateRegisteredData(Register register)
+        {
+            if (CheckEmailRegisteredData(register) == 1 && CheckPhoneRegisteredData(register) == 1)
+            {
+                return 1;
+            }
+            else if (CheckEmailRegisteredData(register) == 1)
+            {
+                return 2;
+            }
+            else if (CheckPhoneRegisteredData(register) == 1)
+            {
+                return 3;
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         public int InsertEmp(Employee employee)
@@ -193,6 +281,90 @@ namespace Exercises0.Repository.Data
             else
             {
                 return 0;
+            }
+        }
+
+        public int CheckEmailRegisteredData(Register register)
+        {
+            var checkEmail = myContext.Employees.Where(e => e.Email == register.Email).FirstOrDefault();
+            if (checkEmail != null)
+                return 1;
+            else
+                return 0;
+        }
+
+        public int CheckPhoneRegisteredData(Register register)
+        {
+            var checkPhone = myContext.Employees.Where(e => e.Phone == register.Phone).FirstOrDefault();
+            if (checkPhone != null)
+                return 1;
+            else
+                return 0;
+        }
+
+        public int CheckPhoneMailRegisteredData(Register register)
+        {
+            var checkData = myContext.Employees.Where(e => e.NIK == register.NIK).FirstOrDefault();
+            if (checkData != null)
+            {
+                myContext.Entry(checkData).State = EntityState.Detached;
+            }
+            if (checkData.Email == register.Email)
+            {
+                if (checkData.Phone == register.Phone) // email & phone still the same => update
+                {
+                    return 0;
+                }
+                else
+                {
+                    if (CheckPhoneRegisteredData(register) == 1) // same email, different phone but already used => can't update, phone already used
+                    {
+                        return 1;
+                    }
+                    else // same email, different phone but never used => update
+                    {
+                        return 2;
+                    }
+                }
+            }
+            else // change email
+            {
+                if (CheckEmailRegisteredData(register) == 1) // email already used
+                {
+                    if (checkData.Phone == register.Phone) // even though phone still the same => can't update, email already used
+                    {
+                        return 3;
+                    }
+                    else //either phone is different
+                    {
+                        if (CheckPhoneRegisteredData(register) == 1) // phone already used => can't update, email & phone already used
+                        {
+                            return 4;
+                        }
+                        else // phone never used => can't update, email already used
+                        {
+                            return 5;
+                        }
+                    }
+                }
+                else // email never used
+                {
+                    if (checkData.Phone == register.Phone) // phone still the same => update
+                    {
+                        return 6;
+                    }
+                    else // change phone
+                    {
+                        if (CheckPhoneRegisteredData(register) == 1) // phone already used => can't update, phone already used
+                        {
+                            return 7;
+                        }
+                        else // phone never used => update
+                        {
+                            return 8;
+                        }
+                    }
+                }
             }
         }
 

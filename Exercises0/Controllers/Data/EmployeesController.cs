@@ -82,11 +82,41 @@ namespace Exercises0.Controllers.Data
                 if (result == null)
                     return NotFound(new { status = HttpStatusCode.NotFound, result = result, message = "No data found" });
                 else
-                    return Ok(new { status = HttpStatusCode.OK, url = UrlHelperExtensions.RouteUrl(Url,result), result = result, message = "Data found" });
+                    return Ok(new { status = HttpStatusCode.OK, result = result, message = "Data found" });
             }
             catch (Exception ex)
             {
                 return NotFound(new { status = HttpStatusCode.NotFound, message = ex.ToString() });
+            }
+        }
+
+        [HttpPut]
+        [Route("Register")]
+        public ActionResult UpdateRegisteredData(Register register)
+        {
+            try
+            {
+                var result = employeeRepository.UpdateRegisteredData(register);
+                return Ok(new { status = HttpStatusCode.OK, result = result, message = "Data updated" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { status = HttpStatusCode.BadRequest, message = ex.ToString() });
+            }
+        }
+
+        [HttpDelete]
+        [Route("Register")]
+        public ActionResult DeleteRegisteredData(Register register)
+        {
+            try
+            {
+                var result = employeeRepository.DeleteRegisteredData(register);
+                return Ok(new { status = HttpStatusCode.OK, result = result, message = "Data deleted" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { status = HttpStatusCode.BadRequest, message = ex.ToString() });
             }
         }
 
