@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Exercises0.ViewModel
 {
-    public class Register
+    public class RegisteredData
     {
         public string NIK { get; set; }
         public string FirstName { get; set; }
@@ -17,7 +17,7 @@ namespace Exercises0.ViewModel
         public int Salary { get; set; }
         public string Password { get; set; }
         public string Degree { get; set; }
-        public decimal GPA { get; set; }
+        public float GPA { get; set; }
         public int UniversityId { get; set; }
         public List<string> RoleName { get; set; }
     }

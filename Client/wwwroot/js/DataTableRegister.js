@@ -2,9 +2,11 @@
     $('#dataTabelEmployee').DataTable({
         'scrollX': true,
         'ajax': {
-            'url': "https://localhost:44351/API/Employees/Register",
+            //'url': "https://localhost:44351/API/Employees/Register",
+            'url': "https://localhost:44388/Employees/GetRegistered",
             'dataType': 'json',
-            'dataSrc': 'result'
+            //'dataSrc': 'result'
+            'dataSrc': ''
         },
         'columns': [
             {
@@ -18,8 +20,11 @@
                 'data': 'nik'
             },
             {
-                'data': 'fullName',
-                'width': '100px'
+                'data': null,
+                'width': '100px',
+                'render': function (data, type, row) {
+                    return row['firstName'] + ' ' + row['lastName']
+                }
             },
             {
                 'data': 'birthDate',
@@ -97,7 +102,8 @@
 
 function Insert() {
     $.ajax({
-        url: "https://localhost:44351/API/Universities",
+        //url: "https://localhost:44351/API/Universities",
+        url: "https://localhost:44388/Universities/GetAll",
     }).done((result) => {
         var univOpt = "";
 
@@ -105,6 +111,8 @@ function Insert() {
             univOpt += `<option value="${val.universityId}">${val.universityName}</option>`
         });
         $("#university").html(univOpt);
+
+        $('#password').attr("readonly", false);
 
         $('#form1').trigger("reset");
         //submitForm();
@@ -115,11 +123,6 @@ function Insert() {
 
         $("#submitButton").html("Insert");
 
-        //var insertButton = "";
-        //insertButton += `<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        //            <button type="submit" class="btn btn-primary" id="insertButton">Insert</button>`;
-        //$("registerNewEmployee .modal-footer").html(insertButton);
-
     }).fail((error) => {
         console.log(error);
     });
@@ -127,7 +130,8 @@ function Insert() {
 
 function GetUniversities() {
     $.ajax({
-        url: "https://localhost:44351/API/Universities"
+        //url: "https://localhost:44351/API/Universities"
+        url: "https://localhost:44388/Universities/GetAll"
 
     }).done((result) => {
         console.log(result);
@@ -150,10 +154,13 @@ function setFormValue(data) {
     updateTitle += `<h3 class="mx-auto my-1"> Update data: ${data.nik} - ${data.firstName} ${data.lastName} </h3>`;
     $("#registerNewEmployee .modal-header").html(updateTitle);
 
+    const splitBirthDate = data.birthDate.split("T");
+
     let nik = data.nik;
     let firstName = data.firstName;
     let lastName = data.lastName;
-    let birthDate = data.birthDate;
+    //let birthDate = data.birthDate;
+    let birthDate = splitBirthDate[0];
     let email = data.email;
     let phone = data.phone;
     let gender = data.gender;
@@ -172,7 +179,7 @@ function setFormValue(data) {
     $("#phone").val(phone);
     $("#gender").val(gender);
     $("#degree").val(degree);
-    $("#gpa").val(gpa);
+    $("#gpa").val(parseFloat(gpa));
     $("#salary").val(salary);
     $("#submitButton").html("Update");
 
@@ -185,12 +192,15 @@ function setFormValue(data) {
 function Update(nik) {
     GetUniversities();
     $.ajax({
-        url: "https://localhost:44351/API/Employees/Register/" + nik,
+        //url: "https://localhost:44351/API/Employees/Register/" + nik,
+        url: "https://localhost:44388/Employees/GetRegisteredById/" + nik,
+        'dataType': 'json',
+        'dataSrc': ''
     }).done((result) => {
 
         console.log(result);
 
-        var data = result.result[0];
+        var data = result;
 
         setFormValue(data);
 
@@ -198,18 +208,6 @@ function Update(nik) {
         console.log(error);
     });
 }
-
-
-//function SubmitUpdateForm() {
-//    $('#form1').submit(function (e) {
-//        e.preventDefault();
-
-//        UpdateData();
-//        $('#form1').trigger("reset");
-//        $('#registerNewEmployee').modal('hide');
-//    });
-
-//}
 
 function UpdateData() {
     var firstName = $('#firstName').val();
@@ -220,8 +218,9 @@ function UpdateData() {
     var birthDate = $('#birthDate').val();
     var gender = $('#gender').val();
     var university = $('#university').val();
+    //var degree = $('#degree').val();
     var degree = $('#degree').val();
-    var gpa = $('#gpa').val();
+    var gpa = parseFloat($('#gpa').val());
     var salary = $('#salary').val();
 
     var registeredData = Object();
@@ -234,28 +233,31 @@ function UpdateData() {
     registeredData.Email = email;
     //registeredData.Password = password;
     registeredData.Degree = degree;
-    registeredData.GPA = parseFloat(gpa);
+    //registeredData.GPA = parseFloat(gpa);
+    registeredData.GPA = gpa;
     registeredData.UniversityId = parseInt(university);
     registeredData.Salary = parseInt(salary);
 
     console.log(registeredData);
 
-    var myJson = JSON.stringify(registeredData)
+    //var myJson = JSON.stringify(registeredData)
 
-    console.log("My Json 1", myJson)
+    //console.log("My Json 1", myJson)
 
     var myTable = $('#dataTabelEmployee').DataTable();
     $.ajax({
-        url: "https://localhost:44351/API/Employees/Register",
-        contentType: "application/json;charset=utf-8",
+        //url: "https://localhost:44351/API/Employees/Register",
+        url: "https://localhost:44388/Employees/Register",
+        //contentType: "application/json;charset=utf-8",
         type: "PUT",
-        data: JSON.stringify(registeredData)
+        //data: JSON.stringify(registeredData)
+        data: registeredData
     }).done((result) => {
         console.log(result);
-        console.log(result.message);
+        //console.log(result.message);
         myTable.ajax.reload();
         var swalIcon;
-        if (result.status == 200) {
+        if (result == 200) {
             swalIcon = 'success';
             swalTitle = 'Success';
         } else {
@@ -294,28 +296,15 @@ function Delete(nik) {
         if (result.isConfirmed) {
             var myTable = $('#dataTabelEmployee').DataTable();
 
-            // get nik, then find education id that have the nik and delete it
-
-            //$.ajax({
-            //    url: "https://localhost:44351/API/Educations/",
-            //    type: "DELETE"
-            //}).done((result) => {
-
-            //    console.log(result);
-
-            //}).fail((error) => {
-            //    console.log(error);
-            //});
-
             $.ajax({
-                url: "https://localhost:44351/API/Employees/" + nik,
-                //url: "https://localhost:44351/API/Employees/Register",
+                //url: "https://localhost:44351/API/DeleteRegisteredData/" + nik,
+                url: "https://localhost:44388/Employees/DeleteRegisteredData/" + nik,
                 type: "DELETE"
             }).done((result) => {
 
                 console.log(result);
 
-                if (result.status === 200) {
+                if (result === 200) {
                     Swal.fire(
                         'Deleted!',
                         'Your file has been deleted.',
@@ -324,7 +313,7 @@ function Delete(nik) {
                 } else {
                     Swal.fire(
                         'Something went wrong',
-                        result.message,
+                        'Hmmmm',
                         'error'
                     )
                 }
@@ -346,10 +335,14 @@ function submitForm() {
     var password = $('#password').val();
     var phone = $('#phone').val();
     var birthDate = $('#birthDate').val();
-    var gender = $('#gender').val();
+    //var birthDate = new Date(parseInt($('#birthDate').val().substr(6)));
+    //var birthDate = new Date($('#birthDate').val() + "Z").toISOString().substring(0, 10);
+    //var gender = $('#gender').val();
+    var gender = parseInt($('#gender').val());
     var university = $('#university').val();
     var degree = $('#degree').val();
-    var gpa = $('#gpa').val();
+    //var gpa = $('#gpa').val();
+    var gpa = parseFloat($('#gpa').val());
     var salary = $('#salary').val();
 
     var registeredData = Object();
@@ -361,7 +354,8 @@ function submitForm() {
     registeredData.Email = email;
     registeredData.Password = password;
     registeredData.Degree = degree;
-    registeredData.GPA = parseFloat(gpa);
+    //registeredData.GPA = parseFloat(gpa);
+    registeredData.GPA = gpa;
     registeredData.UniversityId = parseInt(university);
     registeredData.Salary = parseInt(salary);
 
@@ -369,14 +363,15 @@ function submitForm() {
 
     var myTable = $('#dataTabelEmployee').DataTable();
     $.ajax({
-        url: "https://localhost:44351/API/Employees/Register",
-        contentType: "application/json;charset=utf-8",
+        //url: "https://localhost:44351/API/Employees/Register",
+        url: "https://localhost:44388/Employees/Register",
+        //contentType: "application/json;charset=utf-8",
         type: "POST",
-        data: JSON.stringify(registeredData)
+        //data: JSON.stringify(registeredData)
+        data: registeredData
     }).done((result) => {
         console.log(result);
-        console.log(result.message);
-        //alert(result.message);
+        
         myTable.ajax.reload();
         var swalIcon;
         if (result.status == 200) {
@@ -393,12 +388,12 @@ function submitForm() {
         });
     }).fail((error) => {
         console.log(error);
-        console.log(result.message);
+        //console.log(result.message);
         //alert(result.message);
         Swal.fire({
             icon: 'error',
             title: 'Something went wrong',
-            text: result.message,
+            text: "Hmmm....",
         });
     });
 }
@@ -418,7 +413,8 @@ $('#form1').submit(function (e) {
 
 function Detail(nik) {
     $.ajax({
-        url: "https://localhost:44351/API/Employees/Register/" + nik,
+        //url: "https://localhost:44351/API/Employees/Register/" + nik,
+        url: "https://localhost:44388/Employees/GetRegisteredById/" + nik,
     }).done((result) => {
 
         console.log(result);

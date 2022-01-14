@@ -12,7 +12,7 @@ namespace Exercises0.Models
     {
         public int EducationId { get; set; }
         public string Degree { get; set; }
-        public float GPA { get; set; }
+        public decimal GPA { get; set; }
         [JsonIgnore]
         public virtual University University { get; set; }
         public int UniversityId { get; set; }

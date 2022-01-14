@@ -17,13 +17,9 @@ namespace Exercises0.Repository.Data
         }
         public IEnumerable<Object> CountUniversity()
         {
-            var list = from p in myContext.Profilings
-                       join e in myContext.Educations on p.EducationId equals e.EducationId
-                       join u in myContext.Universities on e.UniversityId equals u.UniversityId
-                       group u by new { e.UniversityId, u.UniversityName } into Group
-                       //from edu in myContext.Educations
-                       //join uni in myContext.Universities on edu.UniversityId equals uni.UniversityId
-                       //group uni by new { edu.UniversityId, uni.UniversityName } into Group
+            var list = from edu in myContext.Educations
+                       join uni in myContext.Universities on edu.UniversityId equals uni.UniversityId
+                       group uni by new { edu.UniversityId, uni.UniversityName } into Group
                        select new
                        {
                            UniversityId = Group.Key.UniversityId,
@@ -32,5 +28,6 @@ namespace Exercises0.Repository.Data
                        };
             return list.ToList();
         }
+
     }
 }

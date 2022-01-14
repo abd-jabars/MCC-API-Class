@@ -29,7 +29,7 @@ namespace Exercises0.Controllers.Data
 
         //[HttpPost("{Register}")]
         [HttpPost]
-        [Route("{Register}")]
+        [Route("Register")]
         public ActionResult Register(Register register)
         {
             try
@@ -47,6 +47,45 @@ namespace Exercises0.Controllers.Data
             catch (Exception)
             {
                 return BadRequest(new { status = HttpStatusCode.BadRequest });
+            }
+        }
+
+        [HttpGet]
+        [Route("RegisterVM")]
+        public ActionResult<Register> GetRegisterVM()
+        {
+            try
+            {
+                var result = employeeRepository.GetRegisteredVM();
+                //var result = employeeRepository.GetRegisteredDataEagerly();
+                if (result.Count() <= 0)
+                    return NotFound(result);
+                else
+                    return Ok(result);
+                //return Ok(new ReturnMessage(HttpStatusCode.OK, result, "Data found"));
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new { status = HttpStatusCode.NotFound, message = ex.ToString() });
+            }
+        }
+
+        [HttpGet]
+        [Route("RegisterVM/{NIK}")]
+        public ActionResult<Register> GetRegisteredData(string NIK)
+        {
+            try
+            {
+                var result = employeeRepository.GetRegisteredData(NIK);
+                //var result = employeeRepository.GetRegisteredDataEagerly();
+                if (result == null)
+                    return NotFound(result);
+                else
+                    return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new { status = HttpStatusCode.NotFound, message = ex.ToString() });
             }
         }
 
@@ -97,7 +136,7 @@ namespace Exercises0.Controllers.Data
             try
             {
                 var result = employeeRepository.UpdateRegisteredData(register);
-                return Ok(new { status = HttpStatusCode.OK, result = result, message = "Data updated" });
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -106,13 +145,22 @@ namespace Exercises0.Controllers.Data
         }
 
         [HttpDelete]
-        [Route("Register")]
-        public ActionResult DeleteRegisteredData(Register register)
+        [Route("DeleteRegisteredData/{NIK}")]
+        public ActionResult DeleteRegisteredData(string NIK)
         {
             try
             {
-                var result = employeeRepository.DeleteRegisteredData(register);
-                return Ok(new { status = HttpStatusCode.OK, result = result, message = "Data deleted" });
+                var findEmployee = employeeRepository.Get(NIK);
+                if (findEmployee == null)
+                {
+                    return Ok($"Data with NIK {NIK} not found");
+                }
+                else
+                {
+                    employeeRepository.DeleteRegisteredData(NIK);
+                    var result = employeeRepository.Delete(NIK);
+                    return Ok(result);
+                }
             }
             catch (Exception ex)
             {

@@ -11,7 +11,7 @@ namespace Client.Base
         where TEntity : class
         where TRepository : IRepository<TEntity, TId>
     {
-        private readonly TRepository repository;
+        public readonly TRepository repository;
 
         public BaseController(TRepository repository)
         {

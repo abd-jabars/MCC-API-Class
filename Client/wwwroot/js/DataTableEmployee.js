@@ -24,6 +24,7 @@ $(document).ready(function () {
     $('#dataTabelEmployee').DataTable({
         'ajax': {
             'url': "https://localhost:44351/API/Employees",
+            //'url': "Employees/GetRegistered",
             'dataType': 'json',
             'dataSrc': ''
         },

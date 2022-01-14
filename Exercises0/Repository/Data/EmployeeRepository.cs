@@ -99,6 +99,76 @@ namespace Exercises0.Repository.Data
             }
         }
 
+        public IEnumerable<Object> GetRegisteredVM()
+        {
+            var registeredData = from employees in myContext.Employees
+                                 join accounts in myContext.Accounts
+                                    on employees.NIK equals accounts.NIK
+                                 join profilings in myContext.Profilings
+                                    on accounts.NIK equals profilings.NIK
+                                 join educations in myContext.Educations
+                                    on profilings.EducationId equals educations.EducationId
+                                 join universities in myContext.Universities
+                                    on educations.UniversityId equals universities.UniversityId
+                                 select new
+                                 {
+                                     NIK = employees.NIK,
+                                     FirstName = employees.FirstName,
+                                     LastName = employees.LastName,
+                                     Gender = employees.Gender,
+                                     BirthDate = employees.BirthDate,
+                                     Phone = employees.Phone,
+                                     Email = employees.Email,
+                                     Salary = employees.Salary,
+                                     Password = accounts.Password,
+                                     Degree = educations.Degree,
+                                     Gpa = educations.GPA,
+                                     UniversityId = universities.UniversityId,
+                                     RoleName = myContext.AccountRoles.Where(ar => ar.AccountNIK == employees.NIK).Select(ar => ar.Role.Name).ToList()
+                                 };
+            return registeredData;
+        }
+
+        public Object GetRegisteredVM(string NIK)
+        {
+            var registeredData = from employees in myContext.Employees
+                                 join accounts in myContext.Accounts
+                                    on employees.NIK equals accounts.NIK
+                                 join profilings in myContext.Profilings
+                                    on accounts.NIK equals profilings.NIK
+                                 join educations in myContext.Educations
+                                    on profilings.EducationId equals educations.EducationId
+                                 join universities in myContext.Universities
+                                    on educations.UniversityId equals universities.UniversityId
+                                 where employees.NIK == NIK
+                                 select new
+                                 {
+                                     NIK = employees.NIK,
+                                     FirstName = employees.FirstName,
+                                     LastName = employees.LastName,
+                                     Gender = employees.Gender,
+                                     BirthDate = employees.BirthDate,
+                                     Phone = employees.Phone,
+                                     Email = employees.Email,
+                                     Salary = employees.Salary,
+                                     Password = accounts.Password,
+                                     Degree = educations.Degree,
+                                     GPA = educations.GPA,
+                                     UniversityId = universities.UniversityId,
+                                     RoleName = myContext.AccountRoles.Where(ar => ar.AccountNIK == employees.NIK).Select(ar => ar.Role.Name).ToList()
+                                 };
+            return registeredData;
+        }
+
+        public int DeleteRegisteredData(string NIK)
+        {
+            var getProfiling = myContext.Profilings.Where(p => p.NIK == NIK).FirstOrDefault();
+            var education = myContext.Educations.Where(e => e.EducationId == getProfiling.EducationId).FirstOrDefault();
+            myContext.Remove(education);
+            var result = myContext.SaveChanges();
+            return result;
+        }
+
         public IEnumerable<Object> GetRegisteredData()
         {
             var registeredData = from employees in myContext.Employees
@@ -128,34 +198,33 @@ namespace Exercises0.Repository.Data
             return registeredData;
         }
 
-        public Object GetRegisteredData(string NIK)
+        public Register GetRegisteredData(string NIK)
         {
-            var registeredData = from employees in myContext.Employees
-                                 join accounts in myContext.Accounts
-                                    on employees.NIK equals accounts.NIK
-                                 join profilings in myContext.Profilings
-                                    on accounts.NIK equals profilings.NIK
-                                 join educations in myContext.Educations
-                                    on profilings.EducationId equals educations.EducationId
-                                 join universities in myContext.Universities
-                                    on educations.UniversityId equals universities.UniversityId
-                                 where employees.NIK == NIK
-                                 select new
-                                 {
-                                     NIK = employees.NIK,
-                                     FirstName = employees.FirstName,
-                                     LastName = employees.LastName,
-                                     Phone = employees.Phone,
-                                     BirthDate = employees.BirthDate.ToString("yyyy-MM-dd"),
-                                     Salary = employees.Salary,
-                                     Email = employees.Email,
-                                     Gender = employees.Gender,
-                                     Degree = educations.Degree,
-                                     Gpa = educations.GPA,
-                                     UniversityId = universities.UniversityId,
-                                     UniversityName = universities.UniversityName,
-                                     RoleName = myContext.AccountRoles.Where(acr => acr.AccountNIK == employees.NIK).Select(acr => acr.Role.Name).ToList()
-                                 };
+            var query = myContext.Employees.Where(e => e.NIK == NIK)
+                                    .Include(e => e.Account)
+                                        .ThenInclude(a => a.Profiling)
+                                        .ThenInclude(p => p.Education)
+                                        .ThenInclude(e => e.University)
+                                            .FirstOrDefault();
+            if (query == null)
+                return null;
+
+            var registeredData = new Register
+            {
+                NIK = query.NIK,
+                FirstName = query.FirstName,
+                LastName = query.LastName,
+                Gender = query.Gender,
+                BirthDate = query.BirthDate,
+                Phone = query.Phone,
+                Salary = query.Salary,
+                Email = query.Email,
+                Degree = query.Account.Profiling.Education.Degree,
+                GPA = query.Account.Profiling.Education.GPA,
+                UniversityId = query.Account.Profiling.Education.University.UniversityId,
+                RoleName = myContext.AccountRoles.Where(acr => acr.AccountNIK == query.NIK).Select(acr => acr.Role.Name).ToList()
+            };
+
             return registeredData;
         }
 
@@ -192,27 +261,27 @@ namespace Exercises0.Repository.Data
 
         }
 
-        public int DeleteRegisteredData(Register register)
-        {
+        //public int DeleteRegisteredData(string NIK)
+        //{
 
-            var employee = myContext.Employees.Find(register.NIK);
-            if (employee == null)
-                throw new ArgumentNullException("employee");
-            myContext.Employees.Remove(employee);
-            myContext.SaveChanges();
+        //    var employee = myContext.Employees.Find(NIK);
+        //    if (employee == null)
+        //        throw new ArgumentNullException("employee");
+        //    myContext.Employees.Remove(employee);
+        //    myContext.SaveChanges();
 
-            var getProfiling = myContext.Profilings.Find(register.NIK);
-            var getEducation = myContext.Educations.Where(ed => ed.EducationId == getProfiling.EducationId).ToList();
-            foreach (var item in getEducation)
-            {
-                var education = item;
-                myContext.Educations.Remove(education);
-                myContext.SaveChanges();
-            }
+        //    var getProfiling = myContext.Profilings.Find(NIK);
+        //    var getEducation = myContext.Educations.Where(ed => ed.EducationId == getProfiling.EducationId).ToList();
+        //    foreach (var item in getEducation)
+        //    {
+        //        var education = item;
+        //        myContext.Educations.Remove(education);
+        //        myContext.SaveChanges();
+        //    }
 
-            return 1;
+        //    return 1;
 
-        }
+        //}
 
         public IEnumerable<Object> GetRegisteredDataEagerly()
         {

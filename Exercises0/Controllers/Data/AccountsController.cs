@@ -37,7 +37,7 @@ namespace Exercises0.Controllers.Data
             if (result == 1)
             {
                 var getUserData = accountRepository.GetUserData(login);
-                
+
                 var claims = new List<Claim>
                 {
                     new Claim("Email", login.Email)
@@ -58,15 +58,22 @@ namespace Exercises0.Controllers.Data
                     );
                 var idToken = new JwtSecurityTokenHandler().WriteToken(token);
                 claims.Add(new Claim("TokenSecurity", idToken.ToString()));
-                return Ok(new { status = HttpStatusCode.OK, result = result, idToken = idToken, message = "Login succes"});
+                return Ok(new JWToken (HttpStatusCode.OK, idToken, "Login succes" ));
+                //return Ok(new JWToken { Status = HttpStatusCode.OK, IdToken = idToken, Message = "Login succes" });
+                //return Ok(new { status = HttpStatusCode.OK, result = result, idToken = idToken, message = "Login succes" });
+                //return Ok(result);
             }
             else if (result == 2)
             {
-                return BadRequest(new { status = HttpStatusCode.BadRequest, result = result, message = "Wrong password" });
+                return Ok(new JWToken ( HttpStatusCode.BadRequest, null, "Wrong password" ));
+                //return Ok(new { status = HttpStatusCode.BadRequest, result = result, message = "Wrong password" });
+                //return Ok(new { status = HttpStatusCode.BadRequest, result = result, message = "Wrong password" });
+                //return Ok("Wrong password");
             }
             else
             {
-                return BadRequest(new { status = HttpStatusCode.BadRequest, result = result, message = "Email not registered, maybe u type a wrong email" });
+                return Ok(new JWToken(HttpStatusCode.BadRequest, null, "Email not registered, maybe u type a wrong email"));
+                //return Ok("Email not registered, maybe u type a wrong email");
             }
         }
 
