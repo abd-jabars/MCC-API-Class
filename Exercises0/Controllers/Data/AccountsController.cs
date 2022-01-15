@@ -103,21 +103,21 @@ namespace Exercises0.Controllers.Data
             var result = accountRepository.ChangePassword(forgotPassword);
             if (result == 1)
             {
-                return Ok(new { status = HttpStatusCode.OK, result = result, message = "Password changed. Now you can login with the new password." });
+                return Ok(new { status = HttpStatusCode.OK, result = result, message = "Password changed. Now you can login with the new password.", caseNumber = 1 });
             }
             else if (result == 2)
             {
-                return BadRequest(new { status = HttpStatusCode.BadRequest, result = result, message = "Otp already used. Please re-request the otp to do this action again." });
+                return BadRequest(new { status = HttpStatusCode.BadRequest, result = result, message = "Otp already used. Please re-request the otp to do this action again.", caseNumber = 3 });
             }
             else if (result == 3)
             {
-                return BadRequest(new { status = HttpStatusCode.BadRequest, result = result, message = "Wrong otp. Please correct the otp before expired." });
+                return BadRequest(new { status = HttpStatusCode.BadRequest, result = result, message = "Wrong otp. Please correct the otp before expired.", caseNumber = 2 });
             }
             else if (result == 4)
             {
-                return BadRequest(new { status = HttpStatusCode.BadRequest, result = result, message = "Otp expired. Please re-request the otp." });
+                return BadRequest(new { status = HttpStatusCode.BadRequest, result = result, message = "Otp expired. Please re-request the otp.", caseNumber = 3 });
             }
-            return BadRequest(new { status = HttpStatusCode.BadRequest, result = result, message = "Wrong email. Please correct your email before otp expired." });
+            return BadRequest(new { status = HttpStatusCode.BadRequest, result = result, message = "Wrong email. Please correct your email before otp expired.", caseNumber = 2 });
         }
     }
 }

@@ -70,17 +70,23 @@ function ChangePassword() {
         console.log(result);
 
         var swalIcon;
-        if (result.status == 200) {
+        if (result.status == 200 || result.caseNumber == 1) {
             swalIcon = 'success';
             swalTitle = 'Success';
             if (result.status === 200) {
                 setTimeout(function () {
                     location.href = "https://localhost:44388/Login";
-                }, 3000);
+                }, 2000);
             }
+        } else if (result.caseNumber == 2) {
+            swalIcon = 'error'
+            swalTitle = 'Oops!'
         } else {
             swalIcon = 'error'
             swalTitle = 'Oops!'
+            setTimeout(function () {
+                location.href = "https://localhost:44388/Login/ForgotPassword";
+            }, 2000);
         }
         Swal.fire({
             icon: swalIcon,
