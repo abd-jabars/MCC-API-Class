@@ -136,8 +136,14 @@ namespace Exercises0.Controllers.Data
             try
             {
                 var result = employeeRepository.UpdateRegisteredData(register);
-                //return Ok(result);
-                return Ok(new { status = HttpStatusCode.OK, result = result, message = "Data updated" });
+                if (result == 1)
+                    return Ok(new { status = HttpStatusCode.BadRequest, result = result, message = "Phone already used" });
+                else if (result == 2)
+                    return Ok(new { status = HttpStatusCode.BadRequest, result = result, message = "Email already used" });
+                else if (result == 3)
+                    return Ok(new { status = HttpStatusCode.BadRequest, result = result, message = "Phone and email already used" });
+                else
+                    return Ok(new { status = HttpStatusCode.OK, result = result, message = "Data updated" });
             }
             catch (Exception ex)
             {

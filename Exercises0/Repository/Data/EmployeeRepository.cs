@@ -230,58 +230,50 @@ namespace Exercises0.Repository.Data
 
         public int UpdateRegisteredData(Register register)
         {
-            
-            var employee = new Employee
+            if (CheckPhoneMailRegisteredData(register) == 1 || CheckPhoneMailRegisteredData(register) == 7)
             {
-                NIK = register.NIK,
-                FirstName = register.FirstName,
-                LastName = register.LastName,
-                BirthDate = register.BirthDate,
-                Phone = register.Phone,
-                Email = register.Email,
-                Salary = register.Salary,
-                Gender = register.Gender
-            };
-            myContext.Entry(employee).State = EntityState.Modified;
-            myContext.SaveChanges();
-
-            var getProfiling = myContext.Profilings.Find(register.NIK);
-            //var getProfiling = myContext.Profilings.Find(employee.NIK);
-            var education = new Education
+                return 1;
+            }
+            else if (CheckPhoneMailRegisteredData(register) == 3 || CheckPhoneMailRegisteredData(register) == 5)
             {
-                EducationId = getProfiling.EducationId,
-                Degree = register.Degree,
-                GPA = register.GPA,
-                UniversityId = register.UniversityId
-            };
-            myContext.Entry(education).State = EntityState.Modified;
-            var result = myContext.SaveChanges();
+                return 2;
+            }
+            else if (CheckPhoneMailRegisteredData(register) == 4)
+            {
+                return 3;
+            }
+            else
+            { 
+                var employee = new Employee
+                {
+                    NIK = register.NIK,
+                    FirstName = register.FirstName,
+                    LastName = register.LastName,
+                    BirthDate = register.BirthDate,
+                    Phone = register.Phone,
+                    Email = register.Email,
+                    Salary = register.Salary,
+                    Gender = register.Gender
+                };
+                myContext.Entry(employee).State = EntityState.Modified;
+                myContext.SaveChanges();
 
-            return result;
+                var getProfiling = myContext.Profilings.Find(register.NIK);
+                //var getProfiling = myContext.Profilings.Find(employee.NIK);
+                var education = new Education
+                {
+                    EducationId = getProfiling.EducationId,
+                    Degree = register.Degree,
+                    GPA = register.GPA,
+                    UniversityId = register.UniversityId
+                };
+                myContext.Entry(education).State = EntityState.Modified;
+                myContext.SaveChanges();
+
+                return 0;
+            }
 
         }
-
-        //public int DeleteRegisteredData(string NIK)
-        //{
-
-        //    var employee = myContext.Employees.Find(NIK);
-        //    if (employee == null)
-        //        throw new ArgumentNullException("employee");
-        //    myContext.Employees.Remove(employee);
-        //    myContext.SaveChanges();
-
-        //    var getProfiling = myContext.Profilings.Find(NIK);
-        //    var getEducation = myContext.Educations.Where(ed => ed.EducationId == getProfiling.EducationId).ToList();
-        //    foreach (var item in getEducation)
-        //    {
-        //        var education = item;
-        //        myContext.Educations.Remove(education);
-        //        myContext.SaveChanges();
-        //    }
-
-        //    return 1;
-
-        //}
 
         public IEnumerable<Object> GetRegisteredDataEagerly()
         {
@@ -291,26 +283,6 @@ namespace Exercises0.Repository.Data
                 .ThenInclude(ed => ed.Education)
                 .ThenInclude(univ => univ.University);
             return eagerLoading;
-        }
-
-        public int CheckUpdateRegisteredData(Register register)
-        {
-            if (CheckEmailRegisteredData(register) == 1 && CheckPhoneRegisteredData(register) == 1)
-            {
-                return 1;
-            }
-            else if (CheckEmailRegisteredData(register) == 1)
-            {
-                return 2;
-            }
-            else if (CheckPhoneRegisteredData(register) == 1)
-            {
-                return 3;
-            }
-            else
-            {
-                return 0;
-            }
         }
 
         public int InsertEmp(Employee employee)
