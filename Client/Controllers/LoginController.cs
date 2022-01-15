@@ -29,6 +29,11 @@ namespace Client.Controllers
         {
             return View();
         }
+        
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
 
         [HttpPost]
         public async Task<IActionResult> Auth(Login login)
@@ -58,6 +63,13 @@ namespace Client.Controllers
         public JsonResult ForgotPassword(ForgotPassword forgotPassword)
         {
             var result = repository.ForgotPassword(forgotPassword);
+            return Json(result);
+        }
+
+        [HttpPut]
+        public JsonResult ChangePassword(ForgotPassword forgotPassword)
+        {
+            var result = repository.ChangePassword(forgotPassword);
             return Json(result);
         }
 

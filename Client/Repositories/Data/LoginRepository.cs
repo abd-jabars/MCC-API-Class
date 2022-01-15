@@ -55,5 +55,19 @@ namespace Client.Repositories.Data
             return entity;
         }
 
+        public Object ChangePassword(ForgotPassword forgotPassword)
+        {
+            StringContent content = new StringContent(JsonConvert.SerializeObject(forgotPassword), Encoding.UTF8, "application/json");
+
+
+            Object entity = new Object();
+            using (var response = httpClient.PutAsync(request + "ChangePassword", content).Result)
+            {
+                string apiResponse = response.Content.ReadAsStringAsync().Result;
+                entity = JsonConvert.DeserializeObject<Object>(apiResponse);
+            }
+            return entity;
+        }
+
     }
 }
