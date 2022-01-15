@@ -134,7 +134,7 @@ function GetUniversities() {
         url: "https://localhost:44388/Universities/GetAll"
 
     }).done((result) => {
-        console.log(result);
+        //console.log(result);
 
         var univOpt = "";
 
@@ -167,6 +167,7 @@ function setFormValue(data) {
     let university = data.universityId;
     let degree = data.degree;
     let gpa = data.gpa;
+    //let gpa = parseFloat(data.gpa);
     let salary = data.salary;
 
     $("#nik").val(nik);
@@ -179,7 +180,8 @@ function setFormValue(data) {
     $("#phone").val(phone);
     $("#gender").val(gender);
     $("#degree").val(degree);
-    $("#gpa").val(parseFloat(gpa));
+    //$("#gpa").val(parseFloat(gpa));
+    $("#gpa").val(gpa);
     $("#salary").val(salary);
     $("#submitButton").html("Update");
 
@@ -220,7 +222,10 @@ function UpdateData() {
     var university = $('#university').val();
     //var degree = $('#degree').val();
     var degree = $('#degree').val();
-    var gpa = parseFloat($('#gpa').val());
+    //var gpa = Number($('#gpa').val());
+    var gpa = $('#gpa').val();
+    //var gpa = parseFloat($('#gpa').val());
+    //var gpa = parseFloat($('#gpa').val().replace('.', ','));
     var salary = $('#salary').val();
 
     var registeredData = Object();
@@ -233,12 +238,13 @@ function UpdateData() {
     registeredData.Email = email;
     //registeredData.Password = password;
     registeredData.Degree = degree;
-    //registeredData.GPA = parseFloat(gpa);
-    registeredData.GPA = gpa;
+    registeredData.GPA = parseFloat(gpa);
+    //registeredData.GPA = gpa;
     registeredData.UniversityId = parseInt(university);
     registeredData.Salary = parseInt(salary);
 
     console.log(registeredData);
+    console.log(gpa);
 
     //var myJson = JSON.stringify(registeredData)
 
@@ -341,8 +347,8 @@ function submitForm() {
     var gender = parseInt($('#gender').val());
     var university = $('#university').val();
     var degree = $('#degree').val();
-    //var gpa = $('#gpa').val();
-    var gpa = parseFloat($('#gpa').val());
+    var gpa = $('#gpa').val();
+    //var gpa = parseFloat($('#gpa').val());
     var salary = $('#salary').val();
 
     var registeredData = Object();
@@ -354,13 +360,14 @@ function submitForm() {
     registeredData.Email = email;
     registeredData.Password = password;
     registeredData.Degree = degree;
-    //registeredData.GPA = parseFloat(gpa);
-    registeredData.GPA = gpa;
+    registeredData.GPA = parseFloat(gpa);
+    //registeredData.GPA = gpa;
     registeredData.UniversityId = parseInt(university);
     registeredData.Salary = parseInt(salary);
 
     console.log(registeredData);
-
+    console.log(gpa);
+    
     var myTable = $('#dataTabelEmployee').DataTable();
     $.ajax({
         //url: "https://localhost:44351/API/Employees/Register",
