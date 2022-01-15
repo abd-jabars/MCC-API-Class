@@ -166,8 +166,8 @@ function setFormValue(data) {
     let gender = data.gender;
     let university = data.universityId;
     let degree = data.degree;
-    let gpa = data.gpa;
-    //let gpa = parseFloat(data.gpa);
+    //let gpa = data.gpa;
+    let gpa = parseFloat(data.gpa);
     let salary = data.salary;
 
     $("#nik").val(nik);
@@ -223,8 +223,8 @@ function UpdateData() {
     //var degree = $('#degree').val();
     var degree = $('#degree').val();
     //var gpa = Number($('#gpa').val());
-    var gpa = $('#gpa').val();
-    //var gpa = parseFloat($('#gpa').val());
+    //var gpa = $('#gpa').val();
+    var gpa = parseFloat($('#gpa').val());
     //var gpa = parseFloat($('#gpa').val().replace('.', ','));
     var salary = $('#salary').val();
 
@@ -238,8 +238,8 @@ function UpdateData() {
     registeredData.Email = email;
     //registeredData.Password = password;
     registeredData.Degree = degree;
-    registeredData.GPA = parseFloat(gpa);
-    //registeredData.GPA = gpa;
+    //registeredData.GPA = parseFloat(gpa);
+    registeredData.GPA = gpa;
     registeredData.UniversityId = parseInt(university);
     registeredData.Salary = parseInt(salary);
 
@@ -347,8 +347,8 @@ function submitForm() {
     var gender = parseInt($('#gender').val());
     var university = $('#university').val();
     var degree = $('#degree').val();
-    var gpa = $('#gpa').val();
-    //var gpa = parseFloat($('#gpa').val());
+    //var gpa = $('#gpa').val();
+    var gpa = parseFloat($('#gpa').val());
     var salary = $('#salary').val();
 
     var registeredData = Object();
@@ -360,8 +360,8 @@ function submitForm() {
     registeredData.Email = email;
     registeredData.Password = password;
     registeredData.Degree = degree;
-    registeredData.GPA = parseFloat(gpa);
-    //registeredData.GPA = gpa;
+    //registeredData.GPA = parseFloat(gpa);
+    registeredData.GPA = gpa;
     registeredData.UniversityId = parseInt(university);
     registeredData.Salary = parseInt(salary);
 
