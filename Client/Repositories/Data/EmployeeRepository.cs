@@ -64,11 +64,24 @@ namespace Client.Repositories.Data
             return register;
         }
 
-        public HttpStatusCode UpdateRegisteredData(Register register)
+        //public HttpStatusCode UpdateRegisteredData(Register register)
+        //{
+        //    StringContent content = new StringContent(JsonConvert.SerializeObject(register), Encoding.UTF8, "application/json");
+        //    var result = httpClient.PutAsync(request + "Register/", content).Result;
+        //    return result.StatusCode;
+        //}
+
+        public Object UpdateRegisteredData(Register register)
         {
             StringContent content = new StringContent(JsonConvert.SerializeObject(register), Encoding.UTF8, "application/json");
-            var result = httpClient.PutAsync(request + "Register/", content).Result;
-            return result.StatusCode;
+
+            Object entity = new Object();
+            using (var response = httpClient.PutAsync(request + "Register/", content).Result)
+            {
+                string apiResponse = response.Content.ReadAsStringAsync().Result;
+                entity = JsonConvert.DeserializeObject<Object>(apiResponse);
+            }
+            return entity;
         }
 
         public HttpStatusCode DeleteRegisteredData(string NIK)

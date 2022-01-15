@@ -257,7 +257,7 @@ function UpdateData() {
         //console.log(result.message);
         myTable.ajax.reload();
         var swalIcon;
-        if (result == 200) {
+        if (result.status == 200) {
             swalIcon = 'success';
             swalTitle = 'Success';
         } else {

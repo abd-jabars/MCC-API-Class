@@ -136,7 +136,8 @@ namespace Exercises0.Controllers.Data
             try
             {
                 var result = employeeRepository.UpdateRegisteredData(register);
-                return Ok(result);
+                //return Ok(result);
+                return Ok(new { status = HttpStatusCode.OK, result = result, message = "Data updated" });
             }
             catch (Exception ex)
             {

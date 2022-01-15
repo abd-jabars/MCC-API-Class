@@ -54,6 +54,13 @@ namespace Client.Controllers
             return RedirectToAction("index", "Login");
         }
 
+        [HttpPut]
+        public JsonResult ForgotPassword(ForgotPassword forgotPassword)
+        {
+            var result = repository.ForgotPassword(forgotPassword);
+            return Json(result);
+        }
+
         //[HttpPost]
         //public JsonResult Login(Login login)
         //{

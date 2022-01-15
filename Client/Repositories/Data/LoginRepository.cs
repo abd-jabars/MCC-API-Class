@@ -41,20 +41,19 @@ namespace Client.Repositories.Data
             return token;
         }
 
-        //public Object Login(Login login)
-        //{
-        //    StringContent content = new StringContent(JsonConvert.SerializeObject(login), Encoding.UTF8, "application/json");
+        public Object ForgotPassword(ForgotPassword forgotPassword)
+        {
+            StringContent content = new StringContent(JsonConvert.SerializeObject(forgotPassword), Encoding.UTF8, "application/json");
 
-        //    Object entities = new Object();
-
-        //    using (var response = httpClient.PostAsync(request + "Login/", content).Result)
-        //    {
-        //        string apiResponse = response.Content.ReadAsStringAsync().Result;
-        //        entities = JsonConvert.DeserializeObject<Object>(apiResponse);
-        //    }
-
-        //    return entities;
-        //}
+            
+            Object entity = new Object();
+            using (var response = httpClient.PutAsync(request + "ForgotPassword", content).Result)
+            {
+                string apiResponse = response.Content.ReadAsStringAsync().Result;
+                entity = JsonConvert.DeserializeObject<Object>(apiResponse);
+            }
+            return entity;
+        }
 
     }
 }
