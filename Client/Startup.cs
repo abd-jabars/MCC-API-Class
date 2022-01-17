@@ -98,8 +98,22 @@ namespace Client
 
                 if (response.StatusCode == (int)HttpStatusCode.Unauthorized)
                 {
-                    response.Redirect("Login");
+                    //response.Redirect("Login");
+                    response.Redirect("/Home/Error401");
                 }
+                //else if (response.StatusCode.Equals((int) HttpStatusCode.NotFound))
+                else if (response.StatusCode == (int)HttpStatusCode.NotFound)
+                {
+                    response.Redirect("/Home/NotFound404");
+                }
+                else if (response.StatusCode == (int)HttpStatusCode.Forbidden)
+                {
+                    response.Redirect("/Home/Error403");
+                }
+                //else if (response.StatusCode.Equals((int)HttpStatusCode.InternalServerError))
+                //{
+                //    response.Redirect("/Home/Error500");
+                //}
 
             });
 

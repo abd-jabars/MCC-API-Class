@@ -25,6 +25,30 @@ namespace Client.Controllers
             return View();
         }
 
+        [AllowAnonymous]
+        public IActionResult NotFound404()
+        {
+            return View();
+        }
+        
+        [AllowAnonymous]
+        public IActionResult Error401()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        public IActionResult Error403()
+        {
+            return View();
+        }
+
+        //[AllowAnonymous]
+        //public IActionResult Error500()
+        //{
+        //    return View();
+        //}
+
         public IActionResult Privacy()
         {
             return View();
@@ -55,6 +79,7 @@ namespace Client.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Director, Manager")]
         public IActionResult DataTableRegister()
         {
             return View();

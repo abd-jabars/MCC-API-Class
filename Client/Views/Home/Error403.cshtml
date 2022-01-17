@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "_LayoutErrorPage";
+}
+
+<!-- Main Content -->
+<div id="content">
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- 404 Error Text -->
+        <div class="text-center">
+            <div class="error mx-auto" data-text="403">403</div>
+            <p class="lead text-gray-800 mb-5">Forbidden</p>
+            <p class="text-gray-500 mb-0">You are not allowed to access this page</p>
+            <p> You will be redirected to dashboard in <span id="time">5</span> seconds</p>
+        </div>
+
+    </div>
+    <!-- /.container-fluid -->
+
+</div>
+
+@section Scripts {
+    <script>
+        var seconds = 5;
+        window.onload = function () {
+            var timer = setInterval(function () {
+                if (seconds <= 0) {
+                    document.getElementById("time").innerHTML = 0;
+                    clearInterval(timer);
+                } else {
+                    document.getElementById("time").innerHTML = seconds - 1;
+                }
+                seconds -= 1;
+            }, 1000);
+
+            setTimeout(function () {
+                window.location.href = "/SbAdmin";
+            }, seconds * 1000);
+        };
+    </script>
+
+    <script>
+
+    </script>
+}

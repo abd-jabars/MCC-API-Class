@@ -56,8 +56,7 @@
                 'data': null,
                 'width': '150px',
                 'render': function (data, type, row) {
-                    return `<button data-toggle="modal" data-target="#detailEmployee" class="d-inline btn btn-primary fa fa-info" onclick="Detail(${row["nik"]})"></button>
-                            <button data-toggle="modal" data-target="#registerNewEmployee" class="d-inline btn btn-warning fa fa-pencil" onclick="Update(${row["nik"]})"></button>
+                    return `<button data-toggle="modal" data-target="#registerNewEmployee" class="d-inline btn btn-warning fa fa-pencil" onclick="Update(${row["nik"]})"></button>
                             <button data-toggle="modal" data-target="#getEmployeeDetail" class="d-inline btn btn-danger fa fa-trash" onclick="Delete(${row["nik"]})"></button>`;
                 }
             }
@@ -111,6 +110,11 @@ function Insert() {
             univOpt += `<option value="${val.universityId}">${val.universityName}</option>`
         });
         $("#university").html(univOpt);
+
+        //$("#nik").attr("type", "hidden");
+        //$("#nik").attr("type", hidden);
+        //$("#nik").type("hidden");
+        //$("#nik").hide();
 
         $('#password').attr("readonly", false);
 
