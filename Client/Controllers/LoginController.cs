@@ -22,7 +22,14 @@ namespace Client.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var token = HttpContext.Session.GetString("JWToken");
+
+            if (token == null)
+            {
+                return View();
+            }
+
+            return RedirectToAction("index", "SbAdmin");
         }
 
         public IActionResult ForgotPassword()
@@ -73,12 +80,12 @@ namespace Client.Controllers
             return Json(result);
         }
 
-        //[HttpPost]
-        //public JsonResult Login(Login login)
-        //{
-        //    var result = loginRepository.Auth(login);
-        //    return Json(result);
-        //}
+        [HttpPost("Accounts/Login")]
+        public JsonResult Validation(Login login)
+        {
+            var result = loginRepository.Validation(login);
+            return Json(result);
+        }
 
     }
 }

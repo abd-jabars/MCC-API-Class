@@ -69,5 +69,18 @@ namespace Client.Repositories.Data
             return entity;
         }
 
+        public Object Validation(Login login)
+        {
+            StringContent content = new StringContent(JsonConvert.SerializeObject(login), Encoding.UTF8, "application/json");
+
+            Object entity = new Object();
+            using (var response = httpClient.PostAsync(address.link + request + "Login/", content).Result)
+            {
+                string apiResponse = response.Content.ReadAsStringAsync().Result;
+                entity = JsonConvert.DeserializeObject<Object>(apiResponse);
+            }
+            return entity;
+        }
+
     }
 }
