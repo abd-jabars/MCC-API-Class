@@ -50,6 +50,7 @@ namespace Client.Controllers
 
             if (token == null)
             {
+                TempData["message"] = jwtToken.Message;
                 return RedirectToAction("index", "Login");
             }
 
